@@ -1,0 +1,50 @@
+version: "3.1"
+
+services:
+    bank-postgres:
+        container_name: bank-postgres
+        image: postgres:alpine
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=none
+            - POSTGRES_DB=bank
+        ports:
+            - "5000:5432"
+    bank-backend:
+        container_name: bank-backend
+        image: bank-backend
+        depends_on:
+            - bank-postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=none
+            - FRONTEND_URL=https://localhost
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://bank-postgres:5432/bank
+            - KEY_STORE_PASSWORD=none
+            - JWT_EXPIRATION_TIME=86400000
+            - JWT_REFRESH_TIME=604800000
+        build:
+            context: bank-backend
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+    bank-frontend:
+        container_name: bank-frontend
+        image: bank-frontend
+        depends_on:
+            - bank-backend
+        build:
+            context: bank-frontend
+            dockerfile: Dockerfile
+        ports:
+            - "4200:443"
+    bank-nginx:
+        container_name: bank-nginx
+        image: bank-nginx
+        build:
+            context: bank-nginx
+            dockerfile: Dockerfile
+        depends_on:
+            - bank-frontend
+        ports:
+            - "443:443"
