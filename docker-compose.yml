@@ -28,23 +28,23 @@ services:
             dockerfile: Dockerfile
         ports:
             - "8080:8080"
-    # bank-frontend:
-    #     container_name: bank-frontend
-    #     image: bank-frontend
-    #     depends_on:
-    #         - bank-backend
-    #     build:
-    #         context: bank-frontend
-    #         dockerfile: Dockerfile
-    #     ports:
-    #         - "4200:443"
+    bank-frontend:
+        container_name: bank-frontend
+        image: bank-frontend
+        depends_on:
+            - bank-backend
+        build:
+            context: bank-frontend
+            dockerfile: Dockerfile
+        ports:
+            - "4200:443"
     bank-nginx:
         container_name: bank-nginx
         image: bank-nginx
         build:
             context: bank-nginx
             dockerfile: Dockerfile
-        # depends_on:
-        #     - bank-frontend
+        depends_on:
+            - bank-frontend
         ports:
             - "443:443"

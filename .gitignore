@@ -41,6 +41,8 @@ gradle
 out
 generated
 *.pem
+*.crt
+*.key
 
 bank-nginx/ssl/*
 !bank-nginx/ssl/gen.sh
