@@ -1,4 +1,4 @@
-package pl.edu.pw.ee.bankbackend.api.auth.interfaces;
+package pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces;
 
 
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;

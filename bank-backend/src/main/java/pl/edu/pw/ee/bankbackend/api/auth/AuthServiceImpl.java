@@ -11,9 +11,10 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
-import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthHelperService;
+import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.LoginDeviceHandler;
+import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
 import pl.edu.pw.ee.bankbackend.config.constants.TokenRevokeStatus;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.TokenManagerService;
@@ -42,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final LoginDeviceHandler loginDeviceFilter;
     private final JwtService jwtService;
     private final AuthHelperService authHelperService;
+    private final PasswordCombinationService passwordCombinationService;
 
     @Override
     public final AuthResponse register(RegisterRequest registerRequest, HttpServletRequest request) {
@@ -61,6 +63,8 @@ public class AuthServiceImpl implements AuthService {
         User newUser = userRepository.save(user);
 
         loginDeviceFilter.addNewDeviceToUserLoggedInDevices(newUser, request);
+
+        passwordCombinationService.generateCimbinationsForPassword(registerRequest.password(), newUser);
 
         log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, newUser);
 

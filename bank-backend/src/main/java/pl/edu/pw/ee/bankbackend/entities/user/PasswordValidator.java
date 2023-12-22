@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class PasswordValidator implements ConstraintValidator<Password, String> {
     private static final Pattern PASSWORD_PATTERN = Pattern
-            .compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[:\\?\\.@!#:\\-_=+ ])[a-zA-Z0-9:\\?\\.@!#:\\-_=+ ]{8,20}$");
+            .compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[:\\?\\.@!#:\\-_=+ ])[a-zA-Z0-9:\\?\\.@!#:\\-_=+ ]{10,20}$");
 
     private static final Pattern LOWER_CASE_PATTERN = Pattern.compile(".*[a-z].*");
 
@@ -21,7 +21,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 
     private static final Pattern SPECIAL_CHARACTER_PATTERN = Pattern.compile(".*[:\\?\\.@!#:\\-_=+ ].*");
 
-    private static final int MIN_LENGTH = 8;
+    private static final int MIN_LENGTH = 10;
 
     private static final int MAX_LENGTH = 20;
 

@@ -1,4 +1,4 @@
-package pl.edu.pw.ee.bankbackend.api.auth;
+package pl.edu.pw.ee.bankbackend.api.auth.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthHelperService;
+import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
 import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
