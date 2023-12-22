@@ -1,8 +1,6 @@
 package pl.edu.pw.ee.bankbackend.entities.password;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +27,7 @@ public class PasswordOption {
     private long passwordOptionId;
 
     @NotNull
-    private String passwordCombinationId;
+    private String codedCombination;
 
     @NotNull
     private String combinationHash;

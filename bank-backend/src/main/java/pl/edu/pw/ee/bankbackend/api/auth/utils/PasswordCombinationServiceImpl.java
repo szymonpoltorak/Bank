@@ -11,6 +11,7 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public final void generateCimbinationsForPassword(String password, User user) {
+    public final void generateCombinationsForPassword(String password, User user) {
         Collection<String> codedCombinations = new ArrayList<>(NUMBER_OF_COMBINATIONS);
         int i = 0;
 
-        log.info("Generating combinations for password");
+        log.info("Generating combinations for passwordCombination");
 
         while (i++ < NUMBER_OF_COMBINATIONS) {
             List<Integer> combination = generateCombination(password);
@@ -52,21 +53,18 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         }
     }
 
-    // TODO: spróbować wykonywać to asynchronicznie
     private void saveNewPasswordOption(String codedCombination, String password, User user) {
-        String combinationToHash = codedCombination
-                .chars()
-                .filter(i -> i != ';')
-                .map(i -> i - '0')
-                .mapToObj(password::charAt)
+        String combinationToHash = Arrays.stream(codedCombination.split(";"))
+                .map(character -> password.charAt(Integer.parseInt(character)))
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
+
         log.info("Combination to hash: {}", combinationToHash);
 
         PasswordOption passwordOption = PasswordOption
                 .builder()
                 .combinationHash(passwordEncoder.encode(combinationToHash))
-                .passwordCombinationId(codedCombination)
+                .codedCombination(codedCombination)
                 .user(user)
                 .build();
         passwordOptionRepository.save(passwordOption);

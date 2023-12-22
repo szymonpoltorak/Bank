@@ -2,9 +2,7 @@ package pl.edu.pw.ee.bankbackend.api.auth.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +12,8 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
+import pl.edu.pw.ee.bankbackend.entities.password.PasswordOption;
+import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordOptionRepository;
 import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
@@ -21,12 +21,16 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthHelperServiceImpl implements AuthHelperService {
+    private static final String USER_LOGIN_FAILED = "User login failed!";
+    private static final String USER_LOGIN_FAILED_USER = "User login failed! User : {}";
+    private final PasswordOptionRepository passwordOptionRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final LoginAttemptRepository loginAttemptRepository;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
@@ -48,18 +52,38 @@ public class AuthHelperServiceImpl implements AuthHelperService {
         try {
             loginAttempt.incrementAttempts();
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequest.username(), loginRequest.password())
+            Optional<PasswordOption> passwordOption = passwordOptionRepository.findByUserAndPasswordCombination(
+                    loginRequest.username(),
+                    loginRequest.codedCombination()
             );
+            checkIfCombinationHashValid(passwordOption, loginRequest.passwordCombination());
+
             loginAttempt.resetAttempts();
 
-        } catch (AuthenticationException e) {
-            log.error("User login failed! User : {}", loginRequest.username());
+        } catch (AuthenticationCredentialsNotFoundException e) {
+            log.error(USER_LOGIN_FAILED_USER, loginRequest.username());
 
-            throw new UsernameNotFoundException("User login failed!", e);
+            throw new UsernameNotFoundException(USER_LOGIN_FAILED, e);
         } finally {
             loginAttemptRepository.save(loginAttempt);
         }
+    }
+
+    private void checkIfCombinationHashValid(Optional<PasswordOption> passwordOption, CharSequence passwordCombination) {
+        passwordOption.ifPresentOrElse(
+                option -> {
+                    if (!passwordEncoder.matches(passwordCombination, option.getCombinationHash())) {
+                        log.error(USER_LOGIN_FAILED_USER, option.getUser().getUsername());
+
+                        throw new AuthenticationCredentialsNotFoundException(USER_LOGIN_FAILED);
+                    }
+                },
+                () -> {
+                    log.error("Combination has not be found!");
+
+                    throw new AuthenticationCredentialsNotFoundException(USER_LOGIN_FAILED);
+                }
+        );
     }
 
     @Override
@@ -68,11 +92,11 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                 .orElseThrow(
                         () -> new TokenDoesNotExistException("Token does not exist!")
                 );
-        log.info("Token to reset password : {}", jwtToken);
+        log.info("Token to reset passwordCombination : {}", jwtToken);
 
         String encodedPassword = passwordEncoder.encode(request.newPassword());
 
-        log.info("Setting new password : {}", encodedPassword);
+        log.info("Setting new passwordCombination : {}", encodedPassword);
 
         user.setPassword(encodedPassword);
 

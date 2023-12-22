@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
 
         loginDeviceFilter.addNewDeviceToUserLoggedInDevices(newUser, request);
 
-        passwordCombinationService.generateCimbinationsForPassword(registerRequest.password(), newUser);
+        passwordCombinationService.generateCombinationsForPassword(registerRequest.password(), newUser);
 
         log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, newUser);
 
@@ -108,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public final SimpleStringResponse requestResetUsersPassword(String username) {
-        log.info("Resetting password for user : {}", username);
+        log.info("Resetting passwordCombination for user : {}", username);
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)
@@ -127,7 +127,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public final SimpleStringResponse resetUsersPassword(ResetPasswordRequest request) {
-        log.info("Resetting password for user with token : {}", request.resetPasswordToken());
+        log.info("Resetting passwordCombination for user with token : {}", request.resetPasswordToken());
 
         String username = jwtService.getClaimFromToken(request.resetPasswordToken(), Claims::getSubject)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE));
@@ -135,7 +135,7 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)
         );
-        log.info("User to reset password : {}", user);
+        log.info("User to reset passwordCombination : {}", user);
 
         authHelperService.executePasswordResetProcess(request, user);
 
