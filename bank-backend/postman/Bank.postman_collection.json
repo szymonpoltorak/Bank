@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "903d493a-ffac-4fc0-9e9d-d1978edf0107",
+		"name": "Bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28494266"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jacek\",\r\n    \"surname\": \"Kowalski\",\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"dateOfBirth\": \"2000-01-01\",\r\n    \"password\": \"Abc1!l1.DKk\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"passwordCombination\": \"cc11!k\",\r\n    \"codedCombination\": \"2;2;3;3;4;10;\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefreshToken",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "params",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDIzMjQyMDIsImV4cCI6MTcwMjkyOTAwMn0.zNbO7Z685nqCGlrl0dmmVrnCk9XI3R1wSMO-acucR3Q",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/refreshToken?refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDIzMjQyMDIsImV4cCI6MTcwMjkyOTAwMn0.zNbO7Z685nqCGlrl0dmmVrnCk9XI3R1wSMO-acucR3Q",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refreshToken"
+					],
+					"query": [
+						{
+							"key": "refreshToken",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDIzMjQyMDIsImV4cCI6MTcwMjkyOTAwMn0.zNbO7Z685nqCGlrl0dmmVrnCk9XI3R1wSMO-acucR3Q"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUIiwiYWxnIjoiUlM1MTIifQ.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDEyNzI4NTMsImV4cCI6MTcwMTM1OTI1M30.ljFplbDpRSktTX8Ui5-QWaVoWzaTFm4S5Hww3ITiFQ6BD_yBnLm3QTfeEBg4rWYaPawUGtXd_cuoFCxMEIgrJu8Xd6qOZnxXNUIxKw-oYl7NOGKeABlxy4ffoLCvFZO7rIPUesqfeD5dVLqCGaHo7cZMMIqoGapWZrHl5ptp9azbsIwNfyYIHrY65LPzcyXQxROt8o5erT8Zfkf6Eoq1GNv6ITQylYLPPdTWchiVk_Lq-5dDzCGk-NGgJxDn3O-MuIxFDFMMBDvM60J_Fa-yCfn2bO92CsI_9foOAmsWrjAitJTemv5RxYICvQQuQFtqH2z_bdI3Wo4UkPInzr4WwGKpmQJk533OqrUzgBep9l2eFPWXpj_oBMIte3DDb_bc9HVvpUR_ob3ksXXEclDXbo0_oxf6eF4s4YLpFVV0kCIlNpPeZ3obXTrYqMmYhwUh92hGRTHmIHcbvukZKnA9bCPuMKAnMpHVcnJ-BP2JjZeZn0e1y16THHsIZP4ZVuoGSb9OPpDJVEuG8XzjIG0fUXjGZpKvZoXVVNZX870QP1taefscEVn_5li3lyTptMZXg8zkSnoGzQfrsVL_rHqCwZ-4w32S3zUxNk_lcYrOndcRDfsYUKvJ84h3Pa1N1VKoTjmfiD2fR3U9PfKw1wk5IqNeVEiKIZ-JkniwKh3lNlg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/logout",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLoggedDevices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDMwODQ3OTYsImV4cCI6MTcwMzE3MTE5Nn0.t4ZHI50q1q-mciZvYd0kH55y21eyD0XqKS6RVvfrbZmjFNCMeiviBUJDqfEPy53SNOyYVJtRS-XqZL8XGFN1uKLSEShvCfSrbqoHB5c47x53FeRPA4vq164lhQ0AvGXPsKjEGGLbSzh0v8Hh71N__HO0AjPfiHiJWs_agB9Za211d1eIFH5iMpypbi7EV8coGdqQ-8U0JaA-jJ5a0UKtzqzhiko6MLbExd3Okelw1Pkau88EBG1A5SamQ9I93ybFf2l1GuxwIaJzSQ502taiL9WPtxefWp_s7OdexJHA85J7Mj7m-WfmrCQ4BoJ2C3G3ZZonKBHbPF_LVIGWNlHNB6xx2Xach7aHDZnySTfa3dlE2M_XaOCoTuDPiAdif2E1qU4UMSJY4rAGyQwVWvLKx_Gyt3CqLzZcPF5JdyVA2JJHdnXIOXdta71PT1TogNnxqGE76s1euGGz9z6KqpCHDQ80SeXlPq7D4JeBtYSplJVWuWCvfGHzEBruXO4xM75UZdPzu4tlbsivTbSiXHc4kAd_fge7QMK1_-8ry6Gj2xgVtIFqOV9AM69Yg4pV--AZoKZk-JGU9DStqQh6Zm4s10WRTFPm7QJCXbXA4eV_rZDPdIk8GFxNCf0hsr6C-zBwFGbsFlTyjpMccCaq3pCtNT5MJJH8ffDmymUTc4wIiaA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/devices/getLoggedDevices?page=0",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"devices",
+						"getLoggedDevices"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RequestResetPassword",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/forgotPassword?username=jacek@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"forgotPassword"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "jacek@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResetPassword",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"newPassword\": \"Abc1!l1.DKl\",\r\n    \"resetPasswordToken\": \"eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDIyMjkzOTksImV4cCI6MTcwMjMxNTc5OX0.cKi2jmtgMsT1TEH2cEdyf6sVcRCpD7jPKpQInWkjtYMwG40JchumBHtW5dxVNm7uN1k_2dEhYajQCj6ElFDWARDhvMYZ_vdk_v1wJXFvftzgzcC-97HCJNK1aiZVzaGPbbGDkhOWSRpuy14R5PtyGRDHcA7QNBXP5XkuJA3_fKHhZaBfeFl4g0o9FZ0WSC00ZkhzDMrWTQZdsxW4Dw06tdwQ5TVrFdumgFodGVgmNttMXVMEoxAtziy49Bp5plYEf2Y01wKQbTKkEgD0QN-WaUU60WR_tQ4gqkWsI0g7J96phYj56CBKad32Jsp65c3RXWKmx2SjaseVYIfZGWaCiHZ7LkRuWhvbjpyY0JGrUKElZ7vAIRQ-gU-8USwmf7wXLDRt_dglqOuJyeuTG3-cymqXefn-KYmC74G7yWKHWrKG2fXCKoPGO3GqGAwSQkVcIZSmMvyMqiv4zVmj_VbGyUBjTVz0IjcktTTlDKX4rKRJrZFViVtaT6waqxNqXB25QbTfpTurhdTX0x9ziNPY2PsBR1wmuYRHvlaehMRw1md3uFIp2_8IOUrqY_vMJfYDyviX-kjKVa342MahN5pX1VKU9UizhvcblDIa5S1pwyEmKfUY68LIGRJnZiiv3eYk3czG_Ez6rYR8yhCCgiAFP5nQMYox6betR4ShYE30vTQ\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/resetPassword",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
