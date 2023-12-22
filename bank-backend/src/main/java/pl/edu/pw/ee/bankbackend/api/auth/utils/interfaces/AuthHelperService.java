@@ -12,7 +12,7 @@ public interface AuthHelperService {
 
     void executeUserAuthenticationProcess(LoginAttempt loginAttempt, LoginRequest loginRequest);
 
-    void executePasswordResetProcess(ResetPasswordRequest request, User user);
+    User executePasswordResetProcess(ResetPasswordRequest request, User user);
 
     void savePasswordResetToken(String passwordRefreshToken, User user);
 }

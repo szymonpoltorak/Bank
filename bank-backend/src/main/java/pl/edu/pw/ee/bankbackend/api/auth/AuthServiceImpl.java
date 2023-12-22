@@ -137,7 +137,9 @@ public class AuthServiceImpl implements AuthService {
         );
         log.info("User to reset passwordCombination : {}", user);
 
-        authHelperService.executePasswordResetProcess(request, user);
+        User newUser = authHelperService.executePasswordResetProcess(request, user);
+
+        passwordCombinationService.generateCombinationsForPassword(request.newPassword(), newUser);
 
         return new SimpleStringResponse(username);
     }

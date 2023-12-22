@@ -87,7 +87,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
     }
 
     @Override
-    public final void executePasswordResetProcess(ResetPasswordRequest request, User user) {
+    public final User executePasswordResetProcess(ResetPasswordRequest request, User user) {
         JwtToken jwtToken = tokenRepository.findByTokenAndUser(request.resetPasswordToken(), user)
                 .orElseThrow(
                         () -> new TokenDoesNotExistException("Token does not exist!")
@@ -102,9 +102,11 @@ public class AuthHelperServiceImpl implements AuthHelperService {
 
         log.info("Saving new user data and deleting token : {}", jwtToken);
 
-        userRepository.save(user);
+        passwordOptionRepository.deleteAllByUserUsername(user.getUsername());
 
         tokenRepository.deleteById(jwtToken.getTokenId());
+
+        return userRepository.save(user);
     }
 
     @Override
