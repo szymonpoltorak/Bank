@@ -10,16 +10,17 @@ import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordOptionRepos
 import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PasswordCombinationServiceImpl implements PasswordCombinationService {
     private static final int NUMBER_OF_COMBINATIONS = 10;
+    private static final int INITIAL_HASH_SIZE = 40;
     private static final long COMBINATION_LENGTH = 6L;
 
     private final PasswordOptionRepository passwordOptionRepository;
@@ -27,13 +28,12 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
 
     @Override
     public final void generateCombinationsForPassword(String password, User user) {
-        Collection<String> codedCombinations = new ArrayList<>(NUMBER_OF_COMBINATIONS);
-        int i = 0;
+        Set<String> codedCombinations = new HashSet<>(INITIAL_HASH_SIZE);
 
         log.info("Generating combinations for passwordCombination");
 
-        while (i++ < NUMBER_OF_COMBINATIONS) {
-            List<Integer> combination = generateCombination(password);
+        while (codedCombinations.size() < NUMBER_OF_COMBINATIONS) {
+            Set<Integer> combination = generateCombination(password);
 
             log.info("Generated combination: {}", combination);
 
@@ -41,20 +41,16 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
 
             log.info("Coded combination: {}", codedCombination);
 
-            if (codedCombinations.contains(codedCombination)) {
-                log.info("Combination already exists, generating another one");
-                i--;
-
-                continue;
-            }
             codedCombinations.add(codedCombination);
-
-            saveNewPasswordOption(codedCombination, password, user);
         }
+        codedCombinations
+                .parallelStream()
+                .forEach(codedCombination -> saveNewPasswordOption(codedCombination, password, user));
     }
 
     private void saveNewPasswordOption(String codedCombination, String password, User user) {
-        String combinationToHash = Arrays.stream(codedCombination.split(";"))
+        String combinationToHash = Arrays
+                .stream(codedCombination.split(";"))
                 .map(character -> password.charAt(Integer.parseInt(character)))
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
@@ -70,19 +66,22 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         passwordOptionRepository.save(passwordOption);
     }
 
-    private String codeCombination(List<Integer> combination) {
+    private String codeCombination(Set<Integer> combination) {
         return combination
                 .stream()
                 .collect(StringBuilder::new, (builder, i) -> builder.append(i).append(";"), StringBuilder::append)
                 .toString();
     }
 
-    private List<Integer> generateCombination(String password) {
-        // TODO: 2021-06-09 check if combination is unique
-        return new SecureRandom()
-                .ints(COMBINATION_LENGTH, 0, password.length())
-                .boxed()
-                .sorted()
-                .toList();
+    private Set<Integer> generateCombination(String password) {
+        SecureRandom random = new SecureRandom();
+        Set<Integer> combinations = new TreeSet<>();
+
+        while(combinations.size() != COMBINATION_LENGTH) {
+            int index = random.nextInt(0, password.length() - 1);
+
+            combinations.add(index);
+        }
+        return combinations;
     }
 }

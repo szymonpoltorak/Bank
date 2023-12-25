@@ -2,7 +2,6 @@ package pl.edu.pw.ee.bankbackend.api.auth.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,10 +59,6 @@ public class AuthHelperServiceImpl implements AuthHelperService {
 
             loginAttempt.resetAttempts();
 
-        } catch (AuthenticationCredentialsNotFoundException e) {
-            log.error(USER_LOGIN_FAILED_USER, loginRequest.username());
-
-            throw new UsernameNotFoundException(USER_LOGIN_FAILED, e);
         } finally {
             loginAttemptRepository.save(loginAttempt);
         }
@@ -75,13 +70,13 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                     if (!passwordEncoder.matches(passwordCombination, option.getCombinationHash())) {
                         log.error(USER_LOGIN_FAILED_USER, option.getUser().getUsername());
 
-                        throw new AuthenticationCredentialsNotFoundException(USER_LOGIN_FAILED);
+                        throw new UsernameNotFoundException(USER_LOGIN_FAILED);
                     }
                 },
                 () -> {
                     log.error("Combination has not be found!");
 
-                    throw new AuthenticationCredentialsNotFoundException(USER_LOGIN_FAILED);
+                    throw new UsernameNotFoundException(USER_LOGIN_FAILED);
                 }
         );
     }
