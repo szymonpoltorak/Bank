@@ -54,4 +54,12 @@ public class LoginAttempt implements AttemptController {
     public final boolean isAccountNonLocked() {
         return dateOfLock.isBefore(LocalTime.now());
     }
+
+    public static LoginAttempt newInstance() {
+        return LoginAttempt
+                .builder()
+                .attempts(NO_ATTEMPTS)
+                .dateOfLock(LocalTime.MIN)
+                .build();
+    }
 }

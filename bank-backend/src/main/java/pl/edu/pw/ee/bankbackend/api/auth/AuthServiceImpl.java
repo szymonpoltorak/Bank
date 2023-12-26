@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.AuthResponse;
@@ -15,6 +16,7 @@ import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.LoginDeviceHandler;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
+import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.constants.TokenRevokeStatus;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.TokenManagerService;
@@ -37,6 +39,8 @@ public class AuthServiceImpl implements AuthService {
     private static final String USER_NOT_EXIST_MESSAGE = "Such user does not exist!";
     private static final String BUILDING_TOKEN_RESPONSE_MESSAGE = "Building token response for user : {}";
     private static final long PASSWORD_REFRESH_TOKEN_TIME = 600_000L;
+    @Value(Properties.FRONTEND_URL)
+    private String frontendUrl;
     private final UserRepository userRepository;
     private final TokenManagerService tokenManager;
     private final LoginAttemptRepository loginAttemptRepository;
@@ -51,11 +55,8 @@ public class AuthServiceImpl implements AuthService {
 
         validateUserRegisterData(registerRequest);
 
-        LoginAttempt loginAttempt = LoginAttempt
-                .builder()
-                .attempts(0L)
-                .dateOfLock(LocalTime.MIN)
-                .build();
+        LoginAttempt loginAttempt = LoginAttempt.newInstance();
+
         LoginAttempt newLoginAttempt = loginAttemptRepository.save(loginAttempt);
 
         User user = authHelperService.buildRequestIntoUser(registerRequest, newLoginAttempt);
@@ -118,7 +119,7 @@ public class AuthServiceImpl implements AuthService {
         String passwordRefreshToken = jwtService.generateToken(Collections.emptyMap(),
                 user, PASSWORD_REFRESH_TOKEN_TIME);
 
-        log.info("Password refresh link : https://localhost:4200/auth/resetPassword?token={}", passwordRefreshToken);
+        log.info("Password refresh link : {}/auth/resetPassword?token={}", frontendUrl, passwordRefreshToken);
 
         authHelperService.savePasswordResetToken(passwordRefreshToken, user);
 
