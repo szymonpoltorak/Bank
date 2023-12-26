@@ -12,9 +12,9 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
-import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.LoginDeviceHandler;
+import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
 import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.constants.TokenRevokeStatus;
@@ -28,7 +28,6 @@ import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.InvalidTokenException;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.UserAlreadyExistsException;
 
-import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -39,8 +38,10 @@ public class AuthServiceImpl implements AuthService {
     private static final String USER_NOT_EXIST_MESSAGE = "Such user does not exist!";
     private static final String BUILDING_TOKEN_RESPONSE_MESSAGE = "Building token response for user : {}";
     private static final long PASSWORD_REFRESH_TOKEN_TIME = 600_000L;
+
     @Value(Properties.FRONTEND_URL)
     private String frontendUrl;
+    
     private final UserRepository userRepository;
     private final TokenManagerService tokenManager;
     private final LoginAttemptRepository loginAttemptRepository;
@@ -96,6 +97,7 @@ public class AuthServiceImpl implements AuthService {
         log.info("Refresh token : {}", refreshToken);
 
         User user = validateRefreshTokenData(refreshToken);
+
         String authToken = jwtService.generateToken(user);
 
         log.info("New auth token : {}\nFor user : {}", authToken, user);
