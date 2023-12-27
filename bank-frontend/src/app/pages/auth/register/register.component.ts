@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
     ngOnInit(): void {
         this.registerForm = this.formValidatorService.buildRegisterFormGroup();
         this.registerForm.reset();
+        this.formValidatorService.passwordControl.enable();
     }
 
     submitForm(): void {

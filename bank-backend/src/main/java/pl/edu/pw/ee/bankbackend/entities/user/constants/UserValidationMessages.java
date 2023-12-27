@@ -12,7 +12,7 @@ public final class UserValidationMessages {
 
     public static final String DATE_NULL_MESSAGE = "Date of birth is mandatory";
 
-    public static final String EMAIL_MESSAGE = "Email must be a valid username address";
+    public static final String EMAIL_MESSAGE = "Email must be a valid stringResponse address";
 
     public static final String NAME_NULL_MESSAGE = "Name is mandatory";
 

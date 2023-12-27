@@ -9,6 +9,11 @@ const routes: Routes = [
             .then(module => module.AuthModule)
     },
     {
+        path: RouterPath.HOME_PATH,
+        loadChildren: () => import("./pages/home/home.module")
+            .then(module => module.HomeModule)
+    },
+    {
         path: RouterPath.CURRENT_PATH,
         redirectTo: "auth/login",
         pathMatch: 'full'

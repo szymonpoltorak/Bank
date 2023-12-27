@@ -32,6 +32,12 @@ FRONTEND_DIR="bank-frontend"
 # Directory of backend application
 BACKEND_DIR="bank-backend"
 
+# Private key for JWT
+PRIVATE_KEY="private.pem"
+
+# Public key for JWT
+PUBLIC_KEY="public.pem"
+
 # Generating certificate for our CA with example data
 # Generating private key for CA
 
@@ -96,14 +102,22 @@ openssl x509 -req -in "${SV_SIGN_REQ}" -extfile "${OPENSSL_CONF}" -extensions v3
 # Bundling key and certificate into keystore file in PKCS12 fromat
 
 openssl pkcs12 -export -out "${SV_KEYSTORE}" -inkey "${SV_PRIVKEY}" -in "${SV_CERT}" -passout pass:"${KEY_STORE_PASS}" && break
+
 # Clean working files
 
 rm ${SV_SIGN_REQ} ${OPENSSL_CONF}
 
+# Generate private and public key
+
+openssl genpkey -algorithm RSA -out ${PRIVATE_KEY} -pkeyopt rsa_keygen_bits:4096
+
+openssl rsa -pubout -in ${PRIVATE_KEY} -out ${PUBLIC_KEY}
+
 # Moving files into directories
+
 cp ${SV_CERT} ${SV_PRIVKEY} ../../${FRONTEND_DIR}/src/assets/ssl/
 
-cp ${SV_CERT} ${SV_PRIVKEY} ../../${BACKEND_DIR}/src/main/resources/
+cp ${SV_CERT} ${SV_PRIVKEY} ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ../../${BACKEND_DIR}/src/main/resources/
 
 echo "Result:
     Certificate Authority:

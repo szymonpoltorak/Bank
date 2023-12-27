@@ -10,6 +10,7 @@ import { AuthResponse } from "@core/data/auth/auth-response";
 import { LoginRequest } from "@core/data/auth/login-request";
 import { AuthConstants } from "@enums/auth/AuthConstants";
 import { ResetPassword } from "@core/data/auth/reset-password";
+import { StringResponse } from "@core/data/auth/string-response";
 
 @Injectable({
     providedIn: 'root'
@@ -66,5 +67,13 @@ export class AuthService {
 
     resetPassword(request: ResetPassword): Observable<string> {
         return this.http.post<string>(`${environment.httpBackend}${AuthApiCalls.RESET_PASSWORD_URL}`, request);
+    }
+
+    getPasswordCombinationForUser(username: string): Observable<StringResponse> {
+        return this.http.get<StringResponse>(`${environment.httpBackend}${AuthApiCalls.GET_PASSWORD_COMBINATION_URL}`, {
+            params: {
+                username: username
+            }
+        });
     }
 }

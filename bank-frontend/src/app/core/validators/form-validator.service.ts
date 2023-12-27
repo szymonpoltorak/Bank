@@ -51,14 +51,23 @@ export class FormValidatorService {
     private readonly passwordName: string = "userPassword";
     private readonly repeatPassword: string = "repeatPassword";
 
+    readonly passwordCombinationGroup: FormGroup = this.formBuilder.group({
+        first: this.combinationControlNewInstance(),
+        second: this.combinationControlNewInstance(),
+        third: this.combinationControlNewInstance(),
+        fourth: this.combinationControlNewInstance(),
+        fifth: this.combinationControlNewInstance(),
+        sixth: this.combinationControlNewInstance(),
+    });
+
     constructor(private formBuilder: FormBuilder,
                 private passwordValidator: PasswordValidatorService) {
     }
 
-    buildFormGroup(): FormGroup {
+    buildLoginFormGroup(): FormGroup {
         return this.formBuilder.group({
             email: this.emailControl,
-            password: this.passwordControl,
+            passwordCombination: this.passwordCombinationGroup,
             telephone: new FormControl("", [])
         });
     }
@@ -101,5 +110,11 @@ export class FormValidatorService {
             email: this.emailControl,
             dateTimeLocal: new FormControl("", [])
         });
+    }
+
+    private combinationControlNewInstance(): FormControl {
+        return new FormControl("", [
+            Validators.required, Validators.minLength(1), Validators.maxLength(1)
+        ]);
     }
 }

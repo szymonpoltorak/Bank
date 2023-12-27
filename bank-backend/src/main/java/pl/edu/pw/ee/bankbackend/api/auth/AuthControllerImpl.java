@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,13 +45,13 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping(value = AuthMappings.REFRESH_MAPPING)
-    public final AuthResponse refreshUserToken(@RequestParam String refreshToken) {
+    public final AuthResponse refreshUserToken(@RequestParam("refreshToken") String refreshToken) {
         return authService.refreshToken(refreshToken);
     }
 
     @Override
     @PostMapping(value = AuthMappings.REQUEST_RESET_PASSWORD_MAPPING)
-    public final SimpleStringResponse requestResetUsersPassword(@RequestParam String username) {
+    public final SimpleStringResponse requestResetUsersPassword(@RequestParam("username") String username) {
         return authService.requestResetUsersPassword(username);
     }
 
@@ -58,5 +59,11 @@ public class AuthControllerImpl implements AuthController {
     @PostMapping(value = AuthMappings.RESET_PASSWORD_MAPPING)
     public final SimpleStringResponse resetUsersPassword(@Valid @RequestBody ResetPasswordRequest request) {
         return authService.resetUsersPassword(request);
+    }
+
+    @Override
+    @GetMapping(value = AuthMappings.GET_COMBINATION_MAPPING)
+    public SimpleStringResponse getPasswordCombinationForUser(@RequestParam("username") String username) {
+        return authService.getPasswordCombinationForUser(username);
     }
 }

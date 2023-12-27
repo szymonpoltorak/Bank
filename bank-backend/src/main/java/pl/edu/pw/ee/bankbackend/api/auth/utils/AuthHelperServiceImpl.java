@@ -1,19 +1,18 @@
-package pl.edu.pw.ee.bankbackend.api.auth;
+package pl.edu.pw.ee.bankbackend.api.auth.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthHelperService;
+import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
+import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
+import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
 import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
@@ -21,12 +20,16 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthHelperServiceImpl implements AuthHelperService {
+    private static final String USER_LOGIN_FAILED = "User login failed!";
+    private static final String USER_LOGIN_FAILED_USER = "User login failed! User : {}";
+    private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final LoginAttemptRepository loginAttemptRepository;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
@@ -48,39 +51,57 @@ public class AuthHelperServiceImpl implements AuthHelperService {
         try {
             loginAttempt.incrementAttempts();
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginRequest.username(), loginRequest.password())
+            Optional<PasswordCombination> passwordOption = passwordCombinationRepository.findByUserAndPasswordCombination(
+                    loginRequest.username(),
+                    loginRequest.codedCombination()
             );
+            checkIfCombinationHashValid(passwordOption, loginRequest.passwordCombination());
+
             loginAttempt.resetAttempts();
 
-        } catch (AuthenticationException e) {
-            log.error("User login failed! User : {}", loginRequest.username());
-
-            throw new UsernameNotFoundException("User login failed!", e);
         } finally {
             loginAttemptRepository.save(loginAttempt);
         }
     }
 
+    private void checkIfCombinationHashValid(Optional<PasswordCombination> passwordOption, CharSequence passwordCombination) {
+        passwordOption.ifPresentOrElse(
+                option -> {
+                    if (!passwordEncoder.matches(passwordCombination, option.getCombinationHash())) {
+                        log.error(USER_LOGIN_FAILED_USER, option.getUser().getUsername());
+
+                        throw new UsernameNotFoundException(USER_LOGIN_FAILED);
+                    }
+                },
+                () -> {
+                    log.error("Combination has not be found!");
+
+                    throw new UsernameNotFoundException(USER_LOGIN_FAILED);
+                }
+        );
+    }
+
     @Override
-    public final void executePasswordResetProcess(ResetPasswordRequest request, User user) {
+    public final User executePasswordResetProcess(ResetPasswordRequest request, User user) {
         JwtToken jwtToken = tokenRepository.findByTokenAndUser(request.resetPasswordToken(), user)
                 .orElseThrow(
                         () -> new TokenDoesNotExistException("Token does not exist!")
                 );
-        log.info("Token to reset password : {}", jwtToken);
+        log.info("Token to reset passwordCombination : {}", jwtToken);
 
         String encodedPassword = passwordEncoder.encode(request.newPassword());
 
-        log.info("Setting new password : {}", encodedPassword);
+        log.info("Setting new passwordCombination : {}", encodedPassword);
 
         user.setPassword(encodedPassword);
 
         log.info("Saving new user data and deleting token : {}", jwtToken);
 
-        userRepository.save(user);
+        passwordCombinationRepository.deleteAllByUserUsername(user.getUsername());
 
         tokenRepository.deleteById(jwtToken.getTokenId());
+
+        return userRepository.save(user);
     }
 
     @Override

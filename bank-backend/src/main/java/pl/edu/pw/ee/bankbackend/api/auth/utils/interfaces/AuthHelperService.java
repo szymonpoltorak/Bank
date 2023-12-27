@@ -1,4 +1,4 @@
-package pl.edu.pw.ee.bankbackend.api.auth.interfaces;
+package pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces;
 
 
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
@@ -12,7 +12,7 @@ public interface AuthHelperService {
 
     void executeUserAuthenticationProcess(LoginAttempt loginAttempt, LoginRequest loginRequest);
 
-    void executePasswordResetProcess(ResetPasswordRequest request, User user);
+    User executePasswordResetProcess(ResetPasswordRequest request, User user);
 
     void savePasswordResetToken(String passwordRefreshToken, User user);
 }
