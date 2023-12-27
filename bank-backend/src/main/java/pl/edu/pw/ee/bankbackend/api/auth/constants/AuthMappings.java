@@ -17,6 +17,8 @@ public final class AuthMappings {
 
     public static final String REQUEST_RESET_PASSWORD_MATCHER = CorsConfig.getApiPattern("auth/forgotPassword");
 
+    public static final String GET_COMBINATION_MAPPING = "/getCombination";
+
     private AuthMappings() {
     }
 }

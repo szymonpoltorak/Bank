@@ -21,10 +21,10 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PasswordOption {
+public class PasswordCombination {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long passwordOptionId;
+    private long passwordCombinationId;
 
     @NotNull
     private String codedCombination;

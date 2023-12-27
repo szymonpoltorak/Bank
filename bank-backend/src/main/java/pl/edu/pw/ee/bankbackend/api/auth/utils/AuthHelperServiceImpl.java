@@ -11,8 +11,8 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
-import pl.edu.pw.ee.bankbackend.entities.password.PasswordOption;
-import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordOptionRepository;
+import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
+import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
 import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class AuthHelperServiceImpl implements AuthHelperService {
     private static final String USER_LOGIN_FAILED = "User login failed!";
     private static final String USER_LOGIN_FAILED_USER = "User login failed! User : {}";
-    private final PasswordOptionRepository passwordOptionRepository;
+    private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginAttemptRepository loginAttemptRepository;
     private final TokenRepository tokenRepository;
@@ -51,7 +51,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
         try {
             loginAttempt.incrementAttempts();
 
-            Optional<PasswordOption> passwordOption = passwordOptionRepository.findByUserAndPasswordCombination(
+            Optional<PasswordCombination> passwordOption = passwordCombinationRepository.findByUserAndPasswordCombination(
                     loginRequest.username(),
                     loginRequest.codedCombination()
             );
@@ -64,7 +64,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
         }
     }
 
-    private void checkIfCombinationHashValid(Optional<PasswordOption> passwordOption, CharSequence passwordCombination) {
+    private void checkIfCombinationHashValid(Optional<PasswordCombination> passwordOption, CharSequence passwordCombination) {
         passwordOption.ifPresentOrElse(
                 option -> {
                     if (!passwordEncoder.matches(passwordCombination, option.getCombinationHash())) {
@@ -97,7 +97,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
 
         log.info("Saving new user data and deleting token : {}", jwtToken);
 
-        passwordOptionRepository.deleteAllByUserUsername(user.getUsername());
+        passwordCombinationRepository.deleteAllByUserUsername(user.getUsername());
 
         tokenRepository.deleteById(jwtToken.getTokenId());
 

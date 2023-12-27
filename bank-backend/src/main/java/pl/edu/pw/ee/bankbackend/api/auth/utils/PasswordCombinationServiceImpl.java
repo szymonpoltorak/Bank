@@ -5,13 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
-import pl.edu.pw.ee.bankbackend.entities.password.PasswordOption;
-import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordOptionRepository;
+import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
+import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -23,7 +24,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
     private static final int INITIAL_HASH_SIZE = 40;
     private static final long COMBINATION_LENGTH = 6L;
 
-    private final PasswordOptionRepository passwordOptionRepository;
+    private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -48,6 +49,26 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
                 .forEach(codedCombination -> saveNewPasswordOption(codedCombination, password, user));
     }
 
+    @Override
+    public final String getPasswordCombinationForUser(String username) {
+        List<PasswordCombination> passwordCombinations = passwordCombinationRepository.findAllByUserUsername(username);
+
+        log.info("Got '{}' password combinations for user: {}", passwordCombinations.size(), username);
+
+        if (passwordCombinations.isEmpty()) {
+            throw new IllegalArgumentException("User has no password combinations");
+        }
+        int index = new SecureRandom().nextInt(0, passwordCombinations.size() - 1);
+
+        log.info("Index of password combination: {}", index);
+
+        String passwordCombination = passwordCombinations.get(index).getCodedCombination();
+
+        log.info("Password combination: {}", passwordCombination);
+
+        return passwordCombination;
+    }
+
     private void saveNewPasswordOption(String codedCombination, String password, User user) {
         String combinationToHash = Arrays
                 .stream(codedCombination.split(";"))
@@ -57,13 +78,13 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
 
         log.info("Combination to hash: {}", combinationToHash);
 
-        PasswordOption passwordOption = PasswordOption
+        PasswordCombination passwordCombination = PasswordCombination
                 .builder()
                 .combinationHash(passwordEncoder.encode(combinationToHash))
                 .codedCombination(codedCombination)
                 .user(user)
                 .build();
-        passwordOptionRepository.save(passwordOption);
+        passwordCombinationRepository.save(passwordCombination);
     }
 
     private String codeCombination(Set<Integer> combination) {
@@ -77,7 +98,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         SecureRandom random = new SecureRandom();
         Set<Integer> combinations = new TreeSet<>();
 
-        while(combinations.size() != COMBINATION_LENGTH) {
+        while (combinations.size() != COMBINATION_LENGTH) {
             int index = random.nextInt(0, password.length() - 1);
 
             combinations.add(index);

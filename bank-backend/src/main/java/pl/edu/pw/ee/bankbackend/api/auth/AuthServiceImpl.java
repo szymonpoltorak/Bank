@@ -147,6 +147,17 @@ public class AuthServiceImpl implements AuthService {
         return new SimpleStringResponse(username);
     }
 
+    @Override
+    public final SimpleStringResponse getPasswordCombinationForUser(String username) {
+        log.info("Getting passwordCombination for user : {}", username);
+
+        String passwordCombination = passwordCombinationService.getPasswordCombinationForUser(username);
+
+        log.info("Password combination : {}", passwordCombination);
+
+        return new SimpleStringResponse(passwordCombination);
+    }
+
     private User validateUserLoginAccount(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)
@@ -180,7 +191,7 @@ public class AuthServiceImpl implements AuthService {
         }
         String username = usernameOptional.get();
 
-        log.info("User of username : {}", username);
+        log.info("User of stringResponse : {}", username);
 
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)

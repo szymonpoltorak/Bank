@@ -17,4 +17,6 @@ public interface AuthController {
     SimpleStringResponse requestResetUsersPassword(String username);
 
     SimpleStringResponse resetUsersPassword(ResetPasswordRequest request);
+
+    SimpleStringResponse getPasswordCombinationForUser(String username);
 }
