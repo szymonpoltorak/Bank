@@ -3,8 +3,12 @@
 
     <span class="example-spacer"></span>
 
-    <button mat-icon-button class="example-icon favorite-icon">
+    <button mat-icon-button class="example-icon">
         <mat-icon>home</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon">
+        <mat-icon>person</mat-icon>
     </button>
 
     <button mat-icon-button class="example-icon">
@@ -14,30 +18,55 @@
 
 <div class="main-container">
     <div class="content-container">
-        <mat-card>
-            <mat-card-header>Main Account</mat-card-header>
+        <div class="left-column">
+            <mat-card class="balance-card">
+                <mat-card-header class="money-header">Main Account</mat-card-header>
 
-            <mat-card-content>1240,00 PLN</mat-card-content>
-        </mat-card>
+                <mat-card-content class="money-amount">{{ account.balance }}</mat-card-content>
 
-        <div class="option-button-bar">
-            <button mat-mini-fab color="primary">
-                <mat-icon>add</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="primary">
-                <mat-icon>remove</mat-icon>
-            </button>
-
-            <button mat-mini-fab color="primary">
-                <mat-icon>edit</mat-icon>
-            </button>
-        </div>
-
-        <div>
-            <mat-card *ngFor="let item of items">
-                <mat-card-header>{{ item }}</mat-card-header>
+                <mat-card-footer class="bill-number">{{ account.billNumber | billNumber }}</mat-card-footer>
             </mat-card>
+
+            <button mat-fab extended color="primary" class="send-money-button">
+                <mat-icon>credit_score</mat-icon>
+                Send money
+            </button>
         </div>
+
+        <mat-accordion class="main-accordion">
+            <mat-expansion-panel *ngFor="let transaction of transactions">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon matPrefix>currency_exchange</mat-icon>
+                    </mat-panel-title>
+
+                    <mat-panel-description>
+                        {{ transaction.date | date: 'dd.MM.yyyy' }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-list>
+                    <mat-list-item>
+                        <span matListItemTitle>Title</span>
+                        <span matListItemLine>{{ transaction.title }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>From</span>
+                        <span>{{ transaction.from }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>To</span>
+                        <span>{{ transaction.to }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>Amount</span>
+                        <span>{{ transaction.amount | currency }}</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-expansion-panel>
+        </mat-accordion>
     </div>
 </div>
