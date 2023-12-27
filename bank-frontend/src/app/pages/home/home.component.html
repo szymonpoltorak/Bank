@@ -1,1 +1,43 @@
-<p>home works!</p>
+<mat-toolbar color="primary">
+    <span>Bank</span>
+
+    <span class="example-spacer"></span>
+
+    <button mat-icon-button class="example-icon favorite-icon">
+        <mat-icon>home</mat-icon>
+    </button>
+
+    <button mat-icon-button class="example-icon">
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
+
+<div class="main-container">
+    <div class="content-container">
+        <mat-card>
+            <mat-card-header>Main Account</mat-card-header>
+
+            <mat-card-content>1240,00 PLN</mat-card-content>
+        </mat-card>
+
+        <div class="option-button-bar">
+            <button mat-mini-fab color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="primary">
+                <mat-icon>remove</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="primary">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <mat-card *ngFor="let item of items">
+                <mat-card-header>{{ item }}</mat-card-header>
+            </mat-card>
+        </div>
+    </div>
+</div>
