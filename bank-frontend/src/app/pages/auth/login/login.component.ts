@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {FormValidatorService} from "@core/validators/form-validator.service";
-import {LoginRequest} from "@core/data/auth/login-request";
-import {AuthService} from "@core/services/auth/auth.service";
-import {Observable, of, take} from "rxjs";
-import {AuthResponse} from "@core/data/auth/auth-response";
-import {AuthConstants} from "@enums/auth/AuthConstants";
-import {StorageKeys} from "@enums/auth/StorageKeys";
-import {UtilService} from "@core/services/utils/util.service";
-import {UserService} from "@core/services/utils/user.service";
-import {RouterPath} from "@enums/RouterPath";
-import {FormFieldNames} from "@enums/auth/FormFieldNames";
-import {AuthApiCalls} from "@enums/auth/AuthApiCalls";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from "@angular/forms";
+import { FormValidatorService } from "@core/validators/form-validator.service";
+import { LoginRequest } from "@core/data/auth/login-request";
+import { AuthService } from "@core/services/auth/auth.service";
+import { take } from "rxjs";
+import { AuthResponse } from "@core/data/auth/auth-response";
+import { AuthConstants } from "@enums/auth/AuthConstants";
+import { StorageKeys } from "@enums/auth/StorageKeys";
+import { UtilService } from "@core/services/utils/util.service";
+import { UserService } from "@core/services/utils/user.service";
+import { RouterPath } from "@enums/RouterPath";
+import { FormFieldNames } from "@enums/auth/FormFieldNames";
+import { AuthApiCalls } from "@enums/auth/AuthApiCalls";
+import { Combination } from "@core/data/auth/combination";
+import { StringResponse } from "@core/data/auth/string-response";
 
 @Component({
     selector: 'app-login',
@@ -26,6 +28,8 @@ export class LoginComponent implements OnInit {
     private multiplyBy: number = 1;
     protected loginForm !: FormGroup;
     protected currentUsername: string = "";
+    protected combinations: Combination[] = [];
+    private codedCombination: string = "";
 
     constructor(public loginValidatorService: FormValidatorService,
                 private authService: AuthService,
@@ -48,7 +52,6 @@ export class LoginComponent implements OnInit {
             return;
         }
         const request: LoginRequest = this.buildLoginRequest();
-
         const phone: string = this.loginForm.get("telephone")?.value;
 
         if (phone != undefined && phone !== "") {
@@ -59,19 +62,52 @@ export class LoginComponent implements OnInit {
         this.authService.loginUser(request)
             .pipe(take(1))
             .subscribe((data: AuthResponse): void => {
-                console.log(data);
                 if (data.authToken === AuthConstants.NO_TOKEN) {
                     return;
                 }
-                const username: string = this.loginForm.get(FormFieldNames.EMAIL_FIELD)?.value;
-
-                this.userService.setUserAuthentication = true;
-
-                this.authService.saveData(data);
-
-                this.utilService.addValueToStorage(StorageKeys.USERNAME, username);
-                this.utilService.navigate(RouterPath.HOME_LOGIN_PATH);
+                this.proceedWithUserLogin(data);
             });
+    }
+
+    getPasswordCombinationForUser(): void {
+        const username: string = this.loginForm.get(FormFieldNames.EMAIL_FIELD)?.value;
+
+        this.loginValidatorService.emailControl.disable();
+        this.loginValidatorService.passwordControl.enable();
+
+        this.currentUsername = username;
+
+        this.authService
+            .getPasswordCombinationForUser(username)
+            .pipe(take(1))
+            .subscribe((combination: StringResponse) => {
+                this.mapResponseToCombinations(combination);
+            });
+    }
+
+    private mapResponseToCombinations(combination: StringResponse): void {
+        this.codedCombination = combination.stringResponse;
+
+        const combinations: string[] = combination.stringResponse.split(";");
+        const controlNames: string[] = ["first", "second", "third", "fourth", "fifth", "sixth"];
+
+        for (let i = 0; i < combinations.length - 1; i++) {
+            this.combinations.push({
+                controlName: controlNames[i],
+                index: Number(combinations[i]) + 1
+            });
+        }
+    }
+
+    private proceedWithUserLogin(data: AuthResponse): void {
+        const username: string = this.loginForm.get(FormFieldNames.EMAIL_FIELD)?.value;
+
+        this.userService.setUserAuthentication = true;
+
+        this.authService.saveData(data);
+
+        this.utilService.addValueToStorage(StorageKeys.USERNAME, username);
+        this.utilService.navigate(RouterPath.HOME_LOGIN_PATH);
     }
 
     private checkIfUserExceededMaxNumOfTriesAndBlock(): void {
@@ -92,34 +128,23 @@ export class LoginComponent implements OnInit {
     }
 
     private buildLoginRequest(): LoginRequest {
-        const loginRequest: LoginRequest = new LoginRequest();
+        const username = this.loginForm.get(FormFieldNames.EMAIL_FIELD)!.value;
+        const passwordCombination: string = this.serializePassword();
 
-        loginRequest.username = this.loginForm.get(FormFieldNames.EMAIL_FIELD)!.value;
-        const serializedString: string = this.serializePassword();
+        console.log(passwordCombination);
 
-        console.log(serializedString);
-
-        return loginRequest;
+        return {
+            username: username,
+            passwordCombination: passwordCombination,
+            codedCombination: this.codedCombination
+        };
     }
 
-    getPasswordCombinationForUser(): void {
-        const username: string = this.loginForm.get(FormFieldNames.EMAIL_FIELD)?.value;
-
-        this.loginValidatorService.emailControl.disable();
-        this.loginValidatorService.passwordControl.enable();
-
-        this.currentUsername = username;
-    }
-
-    private serializePassword() {
+    private serializePassword(): string {
         const values: string[] = ["first", "second", "third", "fourth", "fifth", "sixth"];
-        let serializedString: string = "";
 
-        for (const value of values) {
-            const currentValue: string = this.loginValidatorService.passwordCombinationGroup.get(value)?.value;
-
-            serializedString += `${currentValue};`;
-        }
-        return serializedString;
+        return values
+            .map((value: string) => this.loginValidatorService.passwordCombinationGroup.get(value)?.value)
+            .join("");
     }
 }

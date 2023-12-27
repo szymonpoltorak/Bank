@@ -1,5 +1,7 @@
-export class LoginRequest {
-    username!: string;
+export interface LoginRequest {
+    username: string;
 
-    password!: string;
+    passwordCombination: string;
+
+    codedCombination: string;
 }

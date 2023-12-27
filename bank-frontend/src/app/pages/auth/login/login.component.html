@@ -10,6 +10,7 @@
         <input class="login-input" type="tel" formControlName="telephone">
 
         <app-password-combination *ngIf="currentUsername !== ''"
+                                  [combinations]="combinations"
                                   [combinationGroup]="loginValidatorService.passwordCombinationGroup">
         </app-password-combination>
 

@@ -45,13 +45,13 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping(value = AuthMappings.REFRESH_MAPPING)
-    public final AuthResponse refreshUserToken(@RequestParam String refreshToken) {
+    public final AuthResponse refreshUserToken(@RequestParam("refreshToken") String refreshToken) {
         return authService.refreshToken(refreshToken);
     }
 
     @Override
     @PostMapping(value = AuthMappings.REQUEST_RESET_PASSWORD_MAPPING)
-    public final SimpleStringResponse requestResetUsersPassword(@RequestParam String username) {
+    public final SimpleStringResponse requestResetUsersPassword(@RequestParam("username") String username) {
         return authService.requestResetUsersPassword(username);
     }
 

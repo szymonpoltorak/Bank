@@ -8,33 +8,8 @@ import { Combination } from "@core/data/auth/combination";
     styleUrls: ['./password-combination.component.scss']
 })
 export class PasswordCombinationComponent implements OnInit {
-    combinations: Combination[] = [
-        {
-            index: 1,
-            controlName: "first"
-        },
-        {
-            index: 2,
-            controlName: "second"
-        },
-        {
-            index: 3,
-            controlName: "third"
-        },
-        {
-            index: 4,
-            controlName: "fourth"
-        },
-        {
-            index: 5,
-            controlName: "fifth"
-        },
-        {
-            index: 6,
-            controlName: "sixth"
-        }
-    ];
     @Input() combinationGroup !: FormGroup;
+    @Input() combinations!: Combination[];
 
     ngOnInit(): void {
     }
