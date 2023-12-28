@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Transaction } from "@core/data/home/transaction";
 import { Account } from "@core/data/home/account";
+import { RouterPath } from "@enums/RouterPath";
 
 
 @Component({
@@ -71,4 +72,5 @@ export class HomeComponent {
         balance: '1240.00 PLN',
         billNumber: '12345678901234567890123456'
     }
+    protected readonly RouterPath = RouterPath;
 }

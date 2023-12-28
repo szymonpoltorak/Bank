@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit {
         this.authService.saveData(data);
 
         this.utilService.addValueToStorage(StorageKeys.USERNAME, username);
-        this.utilService.navigate(RouterPath.HOME_LOGIN_PATH);
+        this.utilService.navigate(RouterPath.HOME_DIRECT);
     }
 
     private checkIfUserExceededMaxNumOfTriesAndBlock(): void {

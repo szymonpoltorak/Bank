@@ -3,15 +3,19 @@
 
     <span class="example-spacer"></span>
 
-    <button mat-icon-button class="example-icon">
+    <button (click)="changeRoute(RouterPath.HOME_DIRECT)"
+            [disabled]="currentRoute === RouterPath.HOME_DIRECT"
+            mat-icon-button class="example-icon">
         <mat-icon>home</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon">
+    <button (click)="changeRoute(RouterPath.PROFILE_DIRECT)"
+            [disabled]="currentRoute === RouterPath.PROFILE_DIRECT"
+            mat-icon-button class="example-icon">
         <mat-icon>person</mat-icon>
     </button>
 
-    <button mat-icon-button class="example-icon">
+    <button (click)="logoutUser()" mat-icon-button class="example-icon">
         <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>

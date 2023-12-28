@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
 
                 this.authService.saveData(data);
 
-                this.utilService.navigate(RouterPath.HOME_LOGIN_PATH);
+                this.utilService.navigate(RouterPath.HOME_DIRECT);
             });
     }
 
