@@ -38,3 +38,15 @@
 .option-button {
     padding: 2em;
 }
+
+.exit-button {
+    padding: 1.5em;
+    width: 100%;
+}
+
+.done-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10em;
+}

@@ -12,6 +12,7 @@ export class TransactionComponent implements OnInit {
     account !: Account;
     transactionForm !: FormGroup;
     currentTransaction !: Transaction;
+    isEditable: boolean = true;
 
     constructor(private formBuilder: FormBuilder) {
     }
@@ -54,5 +55,9 @@ export class TransactionComponent implements OnInit {
             amount: this.transactionForm.controls['transactionAmount'].value
         };
         console.log(this.currentTransaction);
+    }
+
+    finalizeTransaction(): void {
+        this.isEditable = false;
     }
 }

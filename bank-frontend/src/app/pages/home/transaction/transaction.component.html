@@ -1,8 +1,8 @@
 <app-taskbar></app-taskbar>
 
 <div class="main-container">
-    <mat-stepper class="stepper-container" linear #stepper>
-        <mat-step [stepControl]="transactionForm">
+    <mat-stepper class="stepper-container" linear>
+        <mat-step [stepControl]="transactionForm" [editable]="isEditable">
             <form [formGroup]="transactionForm" (ngSubmit)="buildTransactionFromForm()">
                 <ng-template matStepLabel>Fill out transaction info</ng-template>
 
@@ -128,13 +128,41 @@
             </form>
         </mat-step>
 
-        <mat-step>
+        <mat-step [editable]="isEditable">
             <div>
                 <ng-template matStepLabel>Summary</ng-template>
 
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
+                <mat-list *ngIf="currentTransaction">
+                    <mat-list-item>
+                        <span matListItemTitle>From</span>
+                        <span matListItemLine>{{ currentTransaction.from }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>To</span>
+                        <span matListItemLine>{{ currentTransaction.to }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>Amount</span>
+                        <span matListItemLine>{{ currentTransaction.amount | currency: 'PLN ' }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <span matListItemTitle>Title</span>
+                        <span matListItemLine>{{ currentTransaction.title }}</span>
+                    </mat-list-item>
+                </mat-list>
+
+                <div class="action-buttons">
+                    <button class="option-button" mat-raised-button matStepperPrevious>
+                        Back
+                    </button>
+
+                    <button (click)="finalizeTransaction()" class="option-button" mat-raised-button
+                            matStepperNext color="primary">
+                        Next
+                    </button>
                 </div>
             </div>
         </mat-step>
@@ -142,11 +170,14 @@
         <mat-step>
             <ng-template matStepLabel>Done</ng-template>
 
-            <p>You are now done.</p>
+            <div class="done-container">
+                <h1>We shall deliver money as soon as possible!</h1>
 
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <mat-spinner></mat-spinner>
+
+                <button class="exit-button" routerLink="/home" mat-raised-button color="primary">
+                    Exit
+                </button>
             </div>
         </mat-step>
     </mat-stepper>

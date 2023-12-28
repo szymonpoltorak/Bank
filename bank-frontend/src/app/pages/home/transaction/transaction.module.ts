@@ -11,6 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
         MatButtonModule,
         MatListModule,
         BillNumberPipe,
+        MatProgressSpinnerModule,
     ]
 })
 export class TransactionModule {
