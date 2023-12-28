@@ -3,15 +3,9 @@
 <div class="main-container">
     <div class="content-container">
         <div class="left-column">
-            <mat-card class="balance-card">
-                <mat-card-header class="money-header">Main Account</mat-card-header>
+            <app-account [account]="account"></app-account>
 
-                <mat-card-content class="money-amount">{{ account.balance }}</mat-card-content>
-
-                <mat-card-footer class="bill-number">{{ account.billNumber | billNumber }}</mat-card-footer>
-            </mat-card>
-
-            <button mat-fab extended color="primary" class="send-money-button">
+            <button routerLink="transaction" mat-fab extended color="primary" class="send-money-button">
                 <mat-icon>credit_score</mat-icon>
                 Send money
             </button>

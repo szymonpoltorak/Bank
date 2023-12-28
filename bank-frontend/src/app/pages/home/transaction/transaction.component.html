@@ -1,0 +1,153 @@
+<app-taskbar></app-taskbar>
+
+<div class="main-container">
+    <mat-stepper class="stepper-container" linear #stepper>
+        <mat-step [stepControl]="transactionForm">
+            <form [formGroup]="transactionForm" (ngSubmit)="buildTransactionFromForm()">
+                <ng-template matStepLabel>Fill out transaction info</ng-template>
+
+                <div class="transaction-option-list">
+                    <div>
+                        <div class="title-label">Transaction from</div>
+
+                        <div class="list-option">
+                            <div>{{ account.billNumber | billNumber }}</div>
+                            <div>{{ account.balance }}</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="title-label">Transaction title</div>
+
+                        <div class="list-option">
+                            <mat-form-field appearance="outline" class="form-field">
+                                <mat-label>Transaction title</mat-label>
+
+                                <input #title formControlName="transactionTitle" matInput
+                                       placeholder="My example title">
+
+                                <mat-hint align="end">{{ title.value.length }} / 120</mat-hint>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionTitle'].errors?.['required']">
+                                    Transaction title is <strong>required</strong>.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionTitle'].errors?.['minlength']">
+                                    Transaction title should have at least <strong>4</strong> characters length.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionTitle'].errors?.['maxlength']">
+                                    Transaction title should have max <strong>120</strong> characters length.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionTitle'].errors?.['pattern']">
+                                    Transaction title should contain only <strong>polish and english
+                                    alphanumeric characters</strong>.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="title-label">To</div>
+
+                        <div class="list-option">
+                            <mat-form-field appearance="outline" class="form-field">
+                                <mat-label>Bill Number</mat-label>
+
+                                <input #bill formControlName="billNumber" matInput
+                                       placeholder="{{'12345678901234567890123456' | billNumber}}">
+
+                                <mat-hint align="end">{{ bill.value.length }} / 26</mat-hint>
+
+                                <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['required']">
+                                    Transaction amount is <strong>required</strong>.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['minlength']">
+                                    Transaction amount must be exactly <strong>26</strong> characters long.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['maxlength']">
+                                    Transaction amount must be exactly <strong>26</strong> characters long.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['pattern']">
+                                    Transaction amount has to be a <strong>number</strong> with
+                                    <strong>dot</strong>
+                                    as separation character.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="title-label">Amount</div>
+
+                        <div class="list-option">
+                            <mat-form-field appearance="outline" class="form-field">
+                                <mat-label>Amount</mat-label>
+
+                                <input formControlName="transactionAmount" matInput placeholder="1000.00">
+
+                                <span matTextSuffix>PLN</span>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionAmount'].errors?.['required']">
+                                    Transaction amount is <strong>required</strong>.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionAmount'].errors?.['min']">
+                                    Transaction amount must be at least <strong>1</strong> PLN.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionAmount'].errors?.['max']">
+                                    Transaction amount is <strong>higher</strong> than your
+                                    <strong>balance</strong>.
+                                </mat-error>
+
+                                <mat-error *ngIf="transactionForm.controls['transactionAmount'].errors?.['pattern']">
+                                    Transaction amount has to be a <strong>number</strong> with
+                                    <strong>dot</strong>
+                                    as separation character.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="option-button" mat-raised-button type="button" routerLink="/home">
+                        Return
+                    </button>
+
+                    <button [disabled]="transactionForm.invalid" class="option-button"
+                            mat-raised-button color="primary" matStepperNext>
+                        Next
+                    </button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step>
+            <div>
+                <ng-template matStepLabel>Summary</ng-template>
+
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+
+            <p>You are now done.</p>
+
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</div>

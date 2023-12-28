@@ -18,4 +18,6 @@ export enum RouterPath {
 
     PROFILE_PATH = "profile",
     PROFILE_DIRECT = "/home/profile",
+
+    TRANSACTION_PATH = "transaction",
 }

@@ -19,23 +19,6 @@
     align-items: center;
 }
 
-.balance-card {
-    width: 15em;
-    height: 10em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 2em;
-}
-
-.money-header {
-    font-weight: bold;
-}
-
-.money-amount {
-    font-size: 1em;
-}
-
 .send-money-button {
     margin-bottom: 2em;
 }
@@ -47,8 +30,4 @@
 .remit-details {
     display: flex;
     flex-direction: column;
-}
-
-.bill-number {
-    font-size: 0.7em;
 }
