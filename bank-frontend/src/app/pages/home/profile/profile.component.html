@@ -1,0 +1,47 @@
+<app-taskbar [currentRoute]="RouterPath.PROFILE_DIRECT"></app-taskbar>
+
+<div class="main-container">
+    <mat-card class="profile-container">
+        <mat-card-header class="profile-title-container">
+            <mat-card-title class="profile-title">Profile</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider class="profile-section-separator"></mat-divider>
+
+        <mat-card-content class="profile-section-separator">
+            <mat-card-title>User Info</mat-card-title>
+
+            <mat-list *ngIf="user$ | async as user">
+                <mat-list-item>
+                    <span matListItemTitle>Name</span>
+
+                    <span matListItemLine>{{ user.name }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Surname</span>
+
+                    <span matListItemLine>{{ user.surname }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Username</span>
+
+                    <span matListItemLine>{{ user.username }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Bill Number</span>
+
+                    <span matListItemLine>{{ user.billNumber }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Id Card Number</span>
+
+                    <span matListItemLine>{{ user.idCard }}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>
