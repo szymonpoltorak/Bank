@@ -1,20 +1,4 @@
-<mat-toolbar color="primary">
-    <span>Bank</span>
-
-    <span class="example-spacer"></span>
-
-    <button mat-icon-button class="example-icon">
-        <mat-icon>home</mat-icon>
-    </button>
-
-    <button mat-icon-button class="example-icon">
-        <mat-icon>person</mat-icon>
-    </button>
-
-    <button mat-icon-button class="example-icon">
-        <mat-icon>logout</mat-icon>
-    </button>
-</mat-toolbar>
+<app-taskbar></app-taskbar>
 
 <div class="main-container">
     <div class="content-container">
@@ -53,17 +37,17 @@
 
                     <mat-list-item>
                         <span matListItemTitle>From</span>
-                        <span>{{ transaction.from }}</span>
+                        <span matListItemLine>{{ transaction.from }}</span>
                     </mat-list-item>
 
                     <mat-list-item>
                         <span matListItemTitle>To</span>
-                        <span>{{ transaction.to }}</span>
+                        <span matListItemLine>{{ transaction.to }}</span>
                     </mat-list-item>
 
                     <mat-list-item>
                         <span matListItemTitle>Amount</span>
-                        <span>{{ transaction.amount | currency }}</span>
+                        <span matListItemLine>{{ transaction.amount | currency }}</span>
                     </mat-list-item>
                 </mat-list>
             </mat-expansion-panel>

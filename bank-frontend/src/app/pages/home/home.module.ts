@@ -7,18 +7,17 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatStepperModule } from "@angular/material/stepper";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatInputModule } from "@angular/material/input";
-import { MatTableModule } from "@angular/material/table";
 import { MatListModule } from "@angular/material/list";
 import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
+import { HomeSharedModule } from "./home-shared/home-shared.module";
 
 
 @NgModule({
     declarations: [
         HomeComponent,
-        BillNumberPipe
+        BillNumberPipe,
     ],
     imports: [
         CommonModule,
@@ -27,11 +26,10 @@ import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
         MatIconModule,
         MatButtonModule,
         MatCardModule,
-        MatStepperModule,
         MatExpansionModule,
         MatInputModule,
-        MatTableModule,
         MatListModule,
+        HomeSharedModule,
     ]
 })
 export class HomeModule {

@@ -16,4 +16,6 @@ export enum RouterPath {
     FORGOT_PASSWORD_AUTH_PATH = "forgotPassword",
 
     HOME_PATH = "home",
+
+    PROFILE_PATH = "profile",
 }
