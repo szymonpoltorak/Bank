@@ -22,6 +22,7 @@ services:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://bank-postgres:5432/bank
             - KEY_STORE_PASSWORD=none
             - JWT_EXPIRATION_TIME=86400000
+            - ADMIN_PASSWORD=Admin123!?
             - JWT_REFRESH_TIME=604800000
         build:
             context: bank-backend
@@ -36,8 +37,6 @@ services:
         build:
             context: bank-frontend
             dockerfile: Dockerfile
-        ports:
-            - "4200:443"
     bank-nginx:
         container_name: bank-nginx
         image: bank-nginx

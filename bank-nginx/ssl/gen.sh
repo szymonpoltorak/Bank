@@ -110,14 +110,16 @@ rm ${SV_SIGN_REQ} ${OPENSSL_CONF}
 # Generate private and public key
 
 openssl genpkey -algorithm RSA -out ${PRIVATE_KEY} -pkeyopt rsa_keygen_bits:4096
+[ "$?" = 0 ] || exit 1
 
 openssl rsa -pubout -in ${PRIVATE_KEY} -out ${PUBLIC_KEY}
+[ "$?" = 0 ] || exit 1
 
 # Moving files into directories
 
 cp ${SV_CERT} ${SV_PRIVKEY} ../../${FRONTEND_DIR}/src/assets/ssl/
 
-cp ${SV_CERT} ${SV_PRIVKEY} ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ../../${BACKEND_DIR}/src/main/resources/
+cp ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ../../${BACKEND_DIR}/src/main/resources/
 
 echo "Result:
     Certificate Authority:

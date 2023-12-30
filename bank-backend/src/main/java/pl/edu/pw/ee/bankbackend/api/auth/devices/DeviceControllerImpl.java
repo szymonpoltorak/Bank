@@ -25,7 +25,7 @@ public class DeviceControllerImpl implements DeviceController {
 
     @Override
     @GetMapping(value = GET_LOGGED_DEVICES)
-    public final List<LoggedDeviceResponse> getLoggedDevicesOnPage(@RequestParam int page,
+    public final List<LoggedDeviceResponse> getLoggedDevicesOnPage(@RequestParam("page") int page,
                                                                    @AuthenticationPrincipal User user) {
         return deviceService.getLoggedDevicesOnPage(page, user);
     }

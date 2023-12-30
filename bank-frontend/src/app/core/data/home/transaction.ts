@@ -1,6 +1,5 @@
 export interface Transaction {
-    from: string;
-    amount: string;
+    amount: number;
     to: string;
     title: string;
 }

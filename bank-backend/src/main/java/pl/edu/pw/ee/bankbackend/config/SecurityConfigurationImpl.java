@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.interfaces.SecurityConfiguration;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtAuthenticationFilter;
+import pl.edu.pw.ee.bankbackend.entities.user.UserRole;
 
 import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.AUTH_MATCHERS;
 import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.LOGOUT_URL;
@@ -44,8 +45,13 @@ public class SecurityConfigurationImpl implements SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(LOGOUT_URL)
                         .permitAll()
+
                         .requestMatchers(AUTH_MATCHERS)
                         .permitAll()
+
+                        .requestMatchers("/api/v1/admin")
+                        .hasAuthority(UserRole.ADMIN.name())
+
                         .anyRequest()
                         .authenticated()
                 )
@@ -72,6 +78,6 @@ public class SecurityConfigurationImpl implements SecurityConfiguration {
     }
 
     private String buildContentPolicyDirective() {
-        return String.format("form-action 'self' %s; img-src 'self'; child-src 'none'; script-src 'self'", frontendUrl);
+        return String.format("form-action 'self' '%s'; img-src 'self'; child-src 'none'; script-src 'self'", frontendUrl);
     }
 }

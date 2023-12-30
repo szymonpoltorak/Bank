@@ -18,6 +18,7 @@ import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.RsaKeyService;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
+import pl.edu.pw.ee.bankbackend.entities.user.interfaces.ServiceUser;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
 import java.util.Collections;
@@ -47,17 +48,17 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public final String generateRefreshToken(UserDetails userDetails) {
-        return buildToken(Collections.emptyMap(), userDetails, refreshTime);
+    public final String generateRefreshToken(ServiceUser userDetails) {
+        return buildToken(Map.of("role", userDetails.getRole()), userDetails, refreshTime);
     }
 
     @Override
-    public final String generateToken(UserDetails userDetails) {
-        return generateToken(Collections.emptyMap(), userDetails, expirationTime);
+    public final String generateToken(ServiceUser userDetails) {
+        return generateToken(Map.of("role", userDetails.getRole()), userDetails, expirationTime);
     }
 
     @Override
-    public final String generateToken(Map<String, Object> additionalClaims, UserDetails userDetails, long expiration) {
+    public final String generateToken(Map<String, Object> additionalClaims, ServiceUser userDetails, long expiration) {
         return buildToken(additionalClaims, userDetails, expiration);
     }
 
