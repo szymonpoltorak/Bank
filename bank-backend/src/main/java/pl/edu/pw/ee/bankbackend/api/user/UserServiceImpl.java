@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public final UserResponse getUserAccountInfo(User user) {
         Account account = accountRepository.findByUser(user)
-                .orElseThrow(() -> new AccountDoesNotExistException(HttpStatus.NOT_FOUND, "Account not found"));
+                .orElseThrow(() -> new AccountDoesNotExistException("Account not found"));
 
         log.info("User account info for user: {} has been successfully retrieved", user.getUsername());
 

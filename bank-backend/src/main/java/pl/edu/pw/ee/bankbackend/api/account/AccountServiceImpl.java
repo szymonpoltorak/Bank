@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
         log.info("Getting account details for user: {}", user);
 
         Account account = accountRepository.findByUser(user)
-                .orElseThrow(() -> new AccountDoesNotExistException(HttpStatus.NOT_FOUND, "Account not found!"));
+                .orElseThrow(() -> new AccountDoesNotExistException("Account not found!"));
 
         log.info("Account details: {}", account);
 

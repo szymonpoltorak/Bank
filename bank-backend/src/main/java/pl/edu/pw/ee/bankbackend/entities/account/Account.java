@@ -42,4 +42,12 @@ public class Account {
 
     @OneToOne
     private User user;
+
+    public final void addAccountBalance(float balance) {
+        this.balance += balance;
+    }
+
+    public final void subtractAccountBalance(float amount) {
+        this.addAccountBalance(-amount);
+    }
 }

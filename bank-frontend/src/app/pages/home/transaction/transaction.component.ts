@@ -49,10 +49,9 @@ export class TransactionComponent implements OnInit {
             return;
         }
         this.currentTransaction = {
-            from: this.account.billNumber,
             to: this.transactionForm.controls['billNumber'].value,
             title: this.transactionForm.controls['transactionTitle'].value,
-            amount: this.transactionForm.controls['transactionAmount'].value
+            amount: Number(this.transactionForm.controls['transactionAmount'].value)
         };
         console.log(this.currentTransaction);
     }
