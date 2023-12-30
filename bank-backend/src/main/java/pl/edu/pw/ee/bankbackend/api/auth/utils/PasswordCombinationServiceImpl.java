@@ -28,7 +28,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public final void generateCombinationsForPassword(String password, User user) {
+    public void generateCombinationsForPassword(String password, User user) {
         Set<String> codedCombinations = new HashSet<>(INITIAL_HASH_SIZE);
 
         log.info("Generating combinations for passwordCombination");
@@ -95,7 +95,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
     }
 
     private Set<Integer> generateCombination(String password) {
-        SecureRandom random = new SecureRandom();
+        SecureRandom random = new SecureRandom(SecureRandom.getSeed(32));
         Set<Integer> combinations = new TreeSet<>();
 
         while (combinations.size() != COMBINATION_LENGTH) {

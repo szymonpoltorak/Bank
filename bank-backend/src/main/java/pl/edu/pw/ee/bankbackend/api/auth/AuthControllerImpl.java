@@ -39,7 +39,8 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @PostMapping(value = AuthMappings.LOGIN_MAPPING)
-    public final AuthResponse loginUser(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+    public final AuthResponse loginUser(@Valid @RequestBody LoginRequest loginRequest,
+                                        HttpServletRequest request) {
         return authService.login(loginRequest, request);
     }
 

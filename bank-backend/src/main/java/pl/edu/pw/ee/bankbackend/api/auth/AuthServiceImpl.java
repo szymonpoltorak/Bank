@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.edu.pw.ee.bankbackend.api.account.interfaces.AccountService;
 import pl.edu.pw.ee.bankbackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
@@ -49,6 +50,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final AuthHelperService authHelperService;
     private final PasswordCombinationService passwordCombinationService;
+    private final AccountService accountService;
 
     @Override
     public final AuthResponse register(RegisterRequest registerRequest, HttpServletRequest request) {
@@ -67,6 +69,8 @@ public class AuthServiceImpl implements AuthService {
         loginDeviceFilter.addNewDeviceToUserLoggedInDevices(newUser, request);
 
         passwordCombinationService.generateCombinationsForPassword(registerRequest.password(), newUser);
+
+        accountService.createNewAccount(registerRequest, newUser);
 
         log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, newUser);
 

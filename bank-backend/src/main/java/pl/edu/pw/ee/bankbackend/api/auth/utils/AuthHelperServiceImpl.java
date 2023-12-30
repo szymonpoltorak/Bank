@@ -42,6 +42,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                 .username(registerRequest.username())
                 .surname(registerRequest.surname())
                 .password(passwordEncoder.encode(registerRequest.password()))
+                .idCardNumber(registerRequest.idCardNumber())
                 .loginAttempt(loginAttempt)
                 .build();
     }

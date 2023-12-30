@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -73,8 +74,13 @@ public class User implements ServiceUser {
     private String username;
 
     @JsonIgnore
+    @ToString.Exclude
     @NotNull(message = PASSWORD_NULL_MESSAGE)
     private String password;
+
+    @Size(min = 9, max = 9)
+    @Pattern(regexp = "[A-Z]{3}\\d{6}")
+    private String idCardNumber;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
