@@ -2,6 +2,8 @@ package pl.edu.pw.ee.bankbackend.entities.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +21,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.ServiceUser;
 
@@ -28,6 +31,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static pl.edu.pw.ee.bankbackend.entities.user.constants.Constants.USERS_TABLE_NAME;
 import static pl.edu.pw.ee.bankbackend.entities.user.constants.Constants.USER_PACKAGE;
@@ -86,6 +90,9 @@ public class User implements ServiceUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
 
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role;
+
     @OneToOne
     private LoginAttempt loginAttempt;
 
@@ -96,7 +103,7 @@ public class User implements ServiceUser {
 
     @Override
     public final Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

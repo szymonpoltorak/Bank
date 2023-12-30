@@ -17,6 +17,7 @@ import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
+import pl.edu.pw.ee.bankbackend.entities.user.UserRole;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
@@ -43,6 +44,7 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                 .surname(registerRequest.surname())
                 .password(passwordEncoder.encode(registerRequest.password()))
                 .idCardNumber(registerRequest.idCardNumber())
+                .role(UserRole.CUSTOMER)
                 .loginAttempt(loginAttempt)
                 .build();
     }
