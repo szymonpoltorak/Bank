@@ -32,7 +32,6 @@ public class Account {
     @Column(unique = true)
     private String billNumber;
 
-    @Column(unique = true)
     private String accountName;
 
     @PositiveOrZero

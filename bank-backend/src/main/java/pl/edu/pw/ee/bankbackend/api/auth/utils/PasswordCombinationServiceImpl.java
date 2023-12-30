@@ -36,11 +36,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         while (codedCombinations.size() < NUMBER_OF_COMBINATIONS) {
             Set<Integer> combination = generateCombination(password);
 
-            log.info("Generated combination: {}", combination);
-
             String codedCombination = codeCombination(combination);
-
-            log.info("Coded combination: {}", codedCombination);
 
             codedCombinations.add(codedCombination);
         }
@@ -76,6 +72,7 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
 
+        log.info("Coded combination: {}", codedCombination);
         log.info("Combination to hash: {}", combinationToHash);
 
         PasswordCombination passwordCombination = PasswordCombination

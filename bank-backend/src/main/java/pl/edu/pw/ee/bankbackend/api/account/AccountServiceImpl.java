@@ -21,6 +21,7 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private static final int BILL_NUMBER_LENGTH = 26;
+
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
@@ -37,8 +38,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Transactional
-    public void createNewAccount(RegisterRequest request, User user) {
+    public final void createNewAccount(RegisterRequest request, User user) {
         log.info("Creating new account for user: {}", user);
         log.info("Account request: {}", request);
 

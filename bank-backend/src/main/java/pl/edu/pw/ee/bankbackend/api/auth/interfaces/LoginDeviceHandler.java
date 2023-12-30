@@ -5,5 +5,5 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 @FunctionalInterface
 public interface LoginDeviceHandler {
-    void addNewDeviceToUserLoggedInDevices(User user, HttpServletRequest request);
+    void addNewDeviceToUserLoggedInDevices(User user, String userAgent);
 }

@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     private final AccountService accountService;
 
     @Override
-    public final AuthResponse register(RegisterRequest registerRequest, HttpServletRequest request) {
+    public final void register(RegisterRequest registerRequest, String userAgent) {
         log.info("Registering user with data: \n{}", registerRequest);
 
         validateUserRegisterData(registerRequest);
@@ -66,19 +66,13 @@ public class AuthServiceImpl implements AuthService {
 
         User newUser = userRepository.save(user);
 
-        loginDeviceFilter.addNewDeviceToUserLoggedInDevices(newUser, request);
-
         passwordCombinationService.generateCombinationsForPassword(registerRequest.password(), newUser);
 
         accountService.createNewAccount(registerRequest, newUser);
-
-        log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, newUser);
-
-        return tokenManager.buildTokensIntoResponse(newUser, TokenRevokeStatus.NOT_TO_REVOKE);
     }
 
     @Override
-    public final AuthResponse login(LoginRequest loginRequest, HttpServletRequest request) {
+    public final AuthResponse login(LoginRequest loginRequest, String userAgent) {
         log.info("Logging user with data: \n{}", loginRequest);
 
         String username = loginRequest.username();
@@ -89,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
 
         authHelperService.executeUserAuthenticationProcess(loginAttempt, loginRequest);
 
-        loginDeviceFilter.addNewDeviceToUserLoggedInDevices(user, request);
+        loginDeviceFilter.addNewDeviceToUserLoggedInDevices(user, userAgent);
 
         log.info(BUILDING_TOKEN_RESPONSE_MESSAGE, user);
 

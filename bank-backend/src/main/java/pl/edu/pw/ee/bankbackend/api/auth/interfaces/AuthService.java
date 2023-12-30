@@ -8,9 +8,9 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
 
 public interface AuthService {
-    AuthResponse register(RegisterRequest userRequest, HttpServletRequest request);
+    void register(RegisterRequest userRequest, String userAgent);
 
-    AuthResponse login(LoginRequest loginRequest, HttpServletRequest request);
+    AuthResponse login(LoginRequest loginRequest, String userAgent);
 
     AuthResponse refreshToken(String refreshToken);
 

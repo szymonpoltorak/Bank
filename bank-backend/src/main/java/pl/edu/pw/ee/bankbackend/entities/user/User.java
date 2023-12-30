@@ -84,6 +84,7 @@ public class User implements ServiceUser {
 
     @Size(min = 9, max = 9)
     @Pattern(regexp = "[A-Z]{3}\\d{6}")
+    @Column(unique = true)
     private String idCardNumber;
 
     @Id

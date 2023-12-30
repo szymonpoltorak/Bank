@@ -1,6 +1,8 @@
 package pl.edu.pw.ee.bankbackend.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,10 +13,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
+import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.bankbackend.config.interfaces.AppConfiguration;
+import pl.edu.pw.ee.bankbackend.entities.account.AccountType;
+import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
+import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
+import pl.edu.pw.ee.bankbackend.entities.user.User;
+import pl.edu.pw.ee.bankbackend.entities.user.UserRole;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 
 import java.security.SecureRandom;
@@ -77,5 +88,24 @@ public class AppConfigurationImpl implements AppConfiguration {
     @Override
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(AuthService authService) {
+        return args -> {
+            String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537";
+
+            RegisterRequest registerRequest = RegisterRequest
+                    .builder()
+                    .name("admin")
+                    .surname("admin")
+                    .username("admin@gmail.com")
+                    .password("Admin123!?")
+                    .idCardNumber("ABC123456")
+                    .accountType(AccountType.MAIN)
+                    .userRole(UserRole.ADMIN)
+                    .build();
+            authService.register(registerRequest, userAgent);
+        };
     }
 }
