@@ -9,11 +9,21 @@
 		{
 			"name": "Register",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5NTcxNzEsImV4cCI6MTcwNDA0MzU3MX0.HE647PhIpzm1OmbrO9TOYG-buET3N9g4d-ts5SSfoTLarqIvgACMGbyEP-i2GIrfwEaNtRrNN3fjwSI_ftNIc1b9i9WfWZ08_Vp1ufAnwnw2VVOVFAXOaTO_MhC11xHAkWVhPvVMw9QGSiuFQ9J5rp48ackOUhI-gQ_NRFqy7YLufXzWuL4S3H66na750drZ1efmnL9YcsYpm2k8K8Tdkme_awgcsQdqk10bPsYRc7NixWg4fGBTAGec7OCW-YZoUArlXXlMkyPQ494WpBCPwMF9M8GeOpFs9jBNcjad98uByHH9spDI-vJU421iFUNEzY8o7aOsHrc80L5v3WjJ30YDaKILu1_Zk3IfTYAP_03_5fSqRzsFrzmDU2OhSSf1v-jZNat9_oPmqWzGfyLKfMC6F538sIHa1mUarnpn2gRmzdviuhp24sIuytV9z9EUmEjmRscpdVHjjTqSscGNxO9ux_0aNMHNuqtNZPf327Fp6OFiek4-HoNk1kyPmK26DPcrFx4nOy5pgH8mNofDOgver9do0hshkRTE_fOKwS8FlhKSCtT9I7OFW9JYK8_RkdusjMFV5GK5Rz6IBAOVNdm0NOhMEHOOIfB6UkkyWiODRUDQDRVDVa7jDmBETkA82hEnIFPkvb2KhgHO3Ry1Z_og9m_h-iUfcftYhp1Cc4E",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Jacek\",\r\n    \"surname\": \"Kowalski\",\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"dateOfBirth\": \"2000-01-01\",\r\n    \"password\": \"Abc1!l1.DKk\"\r\n}\r\n",
+					"raw": "{\r\n    \"name\": \"Jacek\",\r\n    \"surname\": \"Kowalski\",\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"dateOfBirth\": \"2000-01-01\",\r\n    \"password\": \"Abc1!l1.DKk\",\r\n    \"idCardNumber\": \"ABC123123\",\r\n    \"accountType\": \"MAIN\",\r\n    \"initialBalance\": \"1000.00\",\r\n    \"userRole\": \"CUSTOMER\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,7 +31,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://localhost:8080/api/v1/auth/register",
+					"raw": "https://localhost:8080/api/v1/admin/register",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -30,12 +40,114 @@
 					"path": [
 						"api",
 						"v1",
-						"auth",
+						"admin",
 						"register"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Register - new User by Admin",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jacek\",\r\n    \"surname\": \"Kowalski\",\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"dateOfBirth\": \"2000-01-01\",\r\n    \"password\": \"Abc1!l1.DKk\",\r\n    \"idCardNumber\": \"ABC123123\",\r\n    \"accountType\": \"MAIN\",\r\n    \"initialBalance\": \"1000.00\",\r\n    \"userRole\": \"CUSTOMER\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8080/api/v1/admin/register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:09:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
 		},
 		{
 			"name": "Login",
@@ -54,7 +166,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"passwordCombination\": \"cc11!k\",\r\n    \"codedCombination\": \"2;2;3;3;4;10;\"\r\n}",
+					"raw": "{\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"passwordCombination\": \"A1!l1D\",\r\n    \"codedCombination\": \"0;3;4;5;6;8;\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -76,7 +188,210 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Login - Admin",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin@gmail.com\",\r\n    \"passwordCombination\": \"Amin1!\",\r\n    \"codedCombination\": \"0;2;3;4;5;8;\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8080/api/v1/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:08:22 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"authToken\": \"eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzQ1MDEsImV4cCI6MTcwNDAyMDkwMX0.DJQqfCC2sJzhw1D4V5MtJgzPMb3HFKeAuTUmm1jaIXkeeCI4Z2FZV6PfxLAlK2nVKjjYVR9HpaQGqPBs5L8p9Av9OnhI-W7S-1T61pffFJQGB1zIP6H-IXDgslJVvNH8mUfwf6Wq8HmzJYV3TvDinMpxe2IZHA205SN-tNpPHJKQxHjzrTF75qIsamPgfrpM9ttrHhPnnfaGKxZLMxilnDayPx6Pl1XPDRYTxAc6-JH4r2zPV6um8LfShSF4mWmGL4M_CviX46fLnywd94FIpfTEPmGD9VpIyGU76ObkmPO2jgLucj80sEkdoqSnRL87FRwjeqAeug8fjEAhKSqBW4kWJUcIf6bG47zrz4j5Ku0KZEjwqR7itw6N1u8YtvsD0G22WogZqtKvRA780wPMpgRMPbVf6gL4kuDksmwUUL7ioNgz6qMnuTynXThF2HRTFgxsmq1nmB9buKR0bi4ykoGYiTUPjixRjqJSE9BiBPE9ugfzDxB_9ZBGhQRLE0pJ-6hQQVfShwWHRy6R4X5s043UegxQrauK7TXzVlRc2Y67Wh_CM2vhvRlNDXF7gSRn_N8OwBcVkgpUr9omKCsKHoon0nxR0yvyPUrElxKERxiBdHM_Qv36nLvOytyoGFR2iX-ywlHZeaJv_OH7tckfDUZPa5IcI6ZHlF4ObfGKFVk\",\n    \"refreshToken\": \"eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzQ1MDEsImV4cCI6MTcwNDUzOTMwMX0.XXu39LyxxXg_ZvTqM0IYWaKbJMYqgGW7Hwf9Epoivs4k2MLqgLMlHozObHs0oidpJeZ-ISKeMa8XRd6dR6hnDn8Yq8FpNpw1YPfdC8Xy2wicjQZjo7npZ4vaGyYoqZzZELOiAFU6H30rQu-n-cSW3GrCZZ1jmpo437IrvMSgdaltRpdlkk5T8dn6XRqoEas_HW_t5G-N6oR5bCGFJE3MF8TYqsHO75RWhV48giE6PMZzBYnrtcwBS0SGM481Ztj9lln0UiM62_DS4FiG1RXoBwirG9vzd01Dh8fEHynE6BhWrDCvE2pyKrZEYIJpRKvSb9x2hQFMCvq8B0qRbbHR6nMdCgR6AwKHsL8CzlYmDAfl9nYLOQBI_QZ4bQ8xaRM6bKS0daWwKkX13QC_FXGRroe2sostxd142wg0sQZHPqVZ1SJAWJ3TfIGaVpnbJ89Orb6znGl98vSDH_nzc7-i2oyrpVn_8TIVO2wgpWtc4j0OR1pjaVO2JOttOH3QOwuQngLe6Uog-7Dvcw_9o9g8YcsZZt9Ih5HPlj7ahz2N_TydDVhTZSft6CSaCCLV5iPFdrSHcIhkBL7-2Q7a39MkfNxiwT4K4oY9M6kHeVwkkW0DutENO__legRQEoySScKF8-vXlMI2jHHxzSNkh3f6lteZMtflG8C3jhWsYJWyC20\"\n}"
+				},
+				{
+					"name": "Login - User",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"jacek@gmail.com\",\r\n    \"passwordCombination\": \"bc1.DK\",\r\n    \"codedCombination\": \"1;2;3;7;8;9;\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8080/api/v1/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:33:16 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"authToken\": \"eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQ1VTVE9NRVIiLCJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzU5OTYsImV4cCI6MTcwNDAyMjM5Nn0.BZ4fKTk-yfCY_nm-zz1KZkHSAucECVvdP--xFEDILV-9Wc8PCQluKoXHB4Ygu7yR_hTpdebHmLymcXKo0aUFATvewtbrG_t-TjVzudAxsAKn1xZU7WPICKG1HDYZRc3B4pLIj3Siw-88DCmn6idrAV9pFaV_vB5UhmHlncaragzRbbZeQB_gJ--iD2bL0kVfjhsCB5CiM_SVFpJH48oluBHtbMwhWf00DXgVA00kibKvvpdwzsYXCfnuxs18tXISCI1c6il_MXmG5gHKYuPqs7xJRNLuhi_-df5dBYyCQxyGJg6rZFSqL6rXN2dbHJiUtQHtbTmtuaETJdkNuVOMWMPMpviwlxXS_hS7IpUK2ynNqsKnobbxZPzRhpEnm8e4NZtZXMgfhIgkJvzmoM2mBKLOr5L02vQmxdbf0cgR_9TBTpkyyh0sCmaebuaLHsm5uM_HkejdwTZLh4cLThan5Fp5gCtbBvlKyOSzav6jYC0flwKeje69Up5XT7CuaiUraAc76erdkNbNStQ9JwQwWBM-09PIUJPTqWWKlOdbRQ0EYEf17A-9hllnSkydlcXGVC-7NfMhcqznf7hG6xGDHl_bgAYTdtREuUoqvLBrlLnjBywYTwhWVXhG1Z3CrrgKMGFxksV_-fSvB22IrUx9zf7wkAQVhOmERRNyzpOsXtU\",\n    \"refreshToken\": \"eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQ1VTVE9NRVIiLCJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzU5OTYsImV4cCI6MTcwNDU0MDc5Nn0.KRB7V_---V-G53mX4F9IStd8eD4dsUzybW5Lk4COJSbHTv46yNbU9kaqOyAvhPoQCtKr87Ra1Z_SxN3cJjx7KPe5s-LPvJvoVXY88gKLw3rJL7fEJpQt4XOjIqENLoRP_j1KIKkYY_7CPl91Zf5p_DO0T50I8tVu8ez6C27yYemxNwhO6sDXXkhU2j7JWztIAhBywlrs_f99Lrk2A-f9TTNoQhP5gpK7mpOT_2jWIXvgqBz4_XDWjEMROccDOpaJWN6nX839a3I2PwuSLbOWGKkb-4HZ8PheJxqxGrfbIDWJjODl3b-Pcs8dn3t3UfXsO-jN6Qkah_z9tqilNdy1Rf5DriE_hFNS5l-Bdw-LQvP8RQD9H4ySKs8EwGKuUpmA7LvUJpSci3t7hoYIh3y2Ss-EKLAEqBG-Sk5EaAE4BD7TbsjtNibntb0ZfGRg-QNNpLsUQFn7u4rTV0YvbRNkJbZyoFCa-4jKF5-vwBNKouz0Xgc7w-pbeqL72JwstOexJWacjHjpco1Ud63zDaPMu-z8wmMlfUtMLmrCUn86Zd4zXY0pqpgVEWt_s5U70_ve5einY0pvXOSQjwq9RbTa5Lk9Lw2JBgWojJJ980S2y0ER2TfRT0s5rZVnHsxqGMTkQSb6mCxtLEuQNXM7KSovB5XDWd0UAnaBiVrHpdNlDic\"\n}"
+				}
+			]
 		},
 		{
 			"name": "RefreshToken",
@@ -165,7 +480,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDMwODQ3OTYsImV4cCI6MTcwMzE3MTE5Nn0.t4ZHI50q1q-mciZvYd0kH55y21eyD0XqKS6RVvfrbZmjFNCMeiviBUJDqfEPy53SNOyYVJtRS-XqZL8XGFN1uKLSEShvCfSrbqoHB5c47x53FeRPA4vq164lhQ0AvGXPsKjEGGLbSzh0v8Hh71N__HO0AjPfiHiJWs_agB9Za211d1eIFH5iMpypbi7EV8coGdqQ-8U0JaA-jJ5a0UKtzqzhiko6MLbExd3Okelw1Pkau88EBG1A5SamQ9I93ybFf2l1GuxwIaJzSQ502taiL9WPtxefWp_s7OdexJHA85J7Mj7m-WfmrCQ4BoJ2C3G3ZZonKBHbPF_LVIGWNlHNB6xx2Xach7aHDZnySTfa3dlE2M_XaOCoTuDPiAdif2E1qU4UMSJY4rAGyQwVWvLKx_Gyt3CqLzZcPF5JdyVA2JJHdnXIOXdta71PT1TogNnxqGE76s1euGGz9z6KqpCHDQ80SeXlPq7D4JeBtYSplJVWuWCvfGHzEBruXO4xM75UZdPzu4tlbsivTbSiXHc4kAd_fge7QMK1_-8ry6Gj2xgVtIFqOV9AM69Yg4pV--AZoKZk-JGU9DStqQh6Zm4s10WRTFPm7QJCXbXA4eV_rZDPdIk8GFxNCf0hsr6C-zBwFGbsFlTyjpMccCaq3pCtNT5MJJH8ffDmymUTc4wIiaA",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQ1VTVE9NRVIiLCJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzQ1NDcsImV4cCI6MTcwNDAyMDk0N30.nPwCaKyleC3jsxX2uqMXxYqm40K3JahFMHt8ARMSxKdhU5Pt_R_4GjwSdDeBbRB51I7oUg9iyjvOtlDqcV2NChAjPalOd8c55YVNr-JcvIXnCriNlQBPKeNCkSMPljcDNnhQ8sgZRLFD-SZtwI38A1-4cS8dcWU8jlBgu4DshhTolyh3V_cD_VRPpikhibv9i_kZeeacP2cZ23e3i_Y42t492-s3NIEdz68EW0j7_NdTAc1WaxOH2S_GVVrg-SU0BuVuzSxi02QfbsDr1GBnsFUorZwMdJSJRfib-uNEvvcaMMiy4oXxMQYy2V9LYbr13vgDIilqZDw4Rn43BJdw_NYZW-4YP5p0fmJ3znMQ9B8KUumnKF3TzqL0VZGti4AeMJpYd5JPMis35AnRmRac9cfuKlW5EA_BGLUg6uEn6vAMK3NRRvvoYXimxewgaijmMx9FI9ODF0FgGyufQYjaYsrzWYMq8qZBn0zWy767IyfuT8PcQdXYJxkdmwJVM9JTBZXm3EkUDUZ1-a7rHhUDVZd39aWE-fooLihM5bie3WZYSgfgkLrqm_uEkGJjrqo5omjzjUUMQRYcRQN4y7Jmrr6Mo8vBjnllkFJkjU_dw_ecfupvhc8Seht4Gj7zOI2Q2BZRuXjYR2smgIYsNzshlrkHZzkDBzdNKtfRPmvHikk",
 							"type": "string"
 						}
 					]
@@ -194,7 +509,107 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "GetLoggedDevices",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8080/api/v1/auth/devices/getLoggedDevices?page=0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"devices",
+								"getLoggedDevices"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:11:30 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"dateOfLogin\": \"2023-12-30\",\n        \"ipAddress\": \"0:0:0:0:0:0:0:1\",\n        \"deviceType\": \"DESKTOP\",\n        \"timeOfLogin\": \"12:08:58.357\"\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "RequestResetPassword",
@@ -254,6 +669,754 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "GetCombinationForUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/auth/getCombination?username=jacek@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"getCombination"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "jacek@gmail.com"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetCombinationForUser",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8080/api/v1/auth/getCombination?username=jacek@gmail.com",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"getCombination"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "jacek@gmail.com"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:00:14 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"stringResponse\": \"0;2;4;5;6;9;\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetAccountDetails",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQ1VTVE9NRVIiLCJzdWIiOiJqYWNla0BnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzU5OTYsImV4cCI6MTcwNDAyMjM5Nn0.BZ4fKTk-yfCY_nm-zz1KZkHSAucECVvdP--xFEDILV-9Wc8PCQluKoXHB4Ygu7yR_hTpdebHmLymcXKo0aUFATvewtbrG_t-TjVzudAxsAKn1xZU7WPICKG1HDYZRc3B4pLIj3Siw-88DCmn6idrAV9pFaV_vB5UhmHlncaragzRbbZeQB_gJ--iD2bL0kVfjhsCB5CiM_SVFpJH48oluBHtbMwhWf00DXgVA00kibKvvpdwzsYXCfnuxs18tXISCI1c6il_MXmG5gHKYuPqs7xJRNLuhi_-df5dBYyCQxyGJg6rZFSqL6rXN2dbHJiUtQHtbTmtuaETJdkNuVOMWMPMpviwlxXS_hS7IpUK2ynNqsKnobbxZPzRhpEnm8e4NZtZXMgfhIgkJvzmoM2mBKLOr5L02vQmxdbf0cgR_9TBTpkyyh0sCmaebuaLHsm5uM_HkejdwTZLh4cLThan5Fp5gCtbBvlKyOSzav6jYC0flwKeje69Up5XT7CuaiUraAc76erdkNbNStQ9JwQwWBM-09PIUJPTqWWKlOdbRQ0EYEf17A-9hllnSkydlcXGVC-7NfMhcqznf7hG6xGDHl_bgAYTdtREuUoqvLBrlLnjBywYTwhWVXhG1Z3CrrgKMGFxksV_-fSvB22IrUx9zf7wkAQVhOmERRNyzpOsXtU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/account/details",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"details"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetAccountDetails",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8080/api/v1/account/details",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"account",
+								"details"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 11:00:08 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"billNumber\": \"56370206537832141401432674\",\n    \"balance\": 1000,\n    \"accountName\": \"Main Account\",\n    \"accountType\": \"MAIN\"\n}"
+				}
+			]
+		},
+		{
+			"name": "GetUserInfo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5MzgwNzYsImV4cCI6MTcwNDAyNDQ3Nn0.JUsd_9g0id70M0mUDfpG5viuKkZDSLjMS93EyjsM7v3cPQF8a_BlD_D-xBlFY4W3w81NMIGWBBGuMnHFDtYM-sngl2xooG6EktpNaE-OF9vJHUo2EG-yHakezYs1qC3l8UwKlrRjUp_OE5rkaj7yAR9GZHIs5MctwsNjBIYE2M_fDm6GsqFP95bnt_GKIKrHQz4LlDcLf_K2pWAfTS8goIxOhg1VMDi0gqF2L3GnOZqu1P_7n1kkqlVuai9brsvoPfs_jE7sxNS5wAH5mIy1vsGiJ6Kp015vyaYbZsdwHzy732FlresYOyjSOHLWeofvLylRJRXg5sTfYit3kNRvd81yBxJ_q_SWmZ6fcrWcyuuP9CpU1BN1L3744xf6p5DtpFqzWSpsmG1jnGHgg--26tG8elEfLe54IonTddfsZ1UCNRpDoNGQMZNScF_rai3dPfc5jlfR4aYHRxOvQkDz9IW9z4qKzQIMsJ43xIhvpa_R7UB5jvN2S_BeinJMoBlw6FrJ4Eiz-NfBtxalICtMmXdD87Q2ShP92pmCMGF9etjf7-KcpPopGihDG60bPeJM5eUaBS_bhCi9UwBGXdKWFq1F6P-MtJZDgDacONhK7ylAdVXEvw56orO7sC0m5OQV8LLpU4MSIN4xwAjggVwxj9cfUvN-rYY71vD-dDyOLYU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/user/info?username=admin@gmail.com",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"info"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin@gmail.com"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetUserInfo",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8080/api/v1/user/info",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"info"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' https://localhost; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 12:09:04 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"username\": \"admin@gmail.com\",\n    \"name\": \"admin\",\n    \"surname\": \"admin\",\n    \"idCardNumber\": \"ABC123456\",\n    \"billNumber\": \"14787713737016626432835015\"\n}"
+				}
+			]
+		},
+		{
+			"name": "MakeTransaction",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5NTcxNzEsImV4cCI6MTcwNDA0MzU3MX0.HE647PhIpzm1OmbrO9TOYG-buET3N9g4d-ts5SSfoTLarqIvgACMGbyEP-i2GIrfwEaNtRrNN3fjwSI_ftNIc1b9i9WfWZ08_Vp1ufAnwnw2VVOVFAXOaTO_MhC11xHAkWVhPvVMw9QGSiuFQ9J5rp48ackOUhI-gQ_NRFqy7YLufXzWuL4S3H66na750drZ1efmnL9YcsYpm2k8K8Tdkme_awgcsQdqk10bPsYRc7NixWg4fGBTAGec7OCW-YZoUArlXXlMkyPQ494WpBCPwMF9M8GeOpFs9jBNcjad98uByHH9spDI-vJU421iFUNEzY8o7aOsHrc80L5v3WjJ30YDaKILu1_Zk3IfTYAP_03_5fSqRzsFrzmDU2OhSSf1v-jZNat9_oPmqWzGfyLKfMC6F538sIHa1mUarnpn2gRmzdviuhp24sIuytV9z9EUmEjmRscpdVHjjTqSscGNxO9ux_0aNMHNuqtNZPf327Fp6OFiek4-HoNk1kyPmK26DPcrFx4nOy5pgH8mNofDOgver9do0hshkRTE_fOKwS8FlhKSCtT9I7OFW9JYK8_RkdusjMFV5GK5Rz6IBAOVNdm0NOhMEHOOIfB6UkkyWiODRUDQDRVDVa7jDmBETkA82hEnIFPkvb2KhgHO3Ry1Z_og9m_h-iUfcftYhp1Cc4E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\": \"22337581851564867163388620\",\r\n    \"amount\": 1000.0,\r\n    \"title\": \"Example transaction\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8080/api/v1/transaction/makeTransaction",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"makeTransaction"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "MakeTransaction - normal",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"to\": \"17522303375553161417361463\",\r\n    \"amount\": 100.0,\r\n    \"title\": \"Example transaction\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8080/api/v1/transaction/makeTransaction",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"makeTransaction"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' 'https://localhost'; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 17:28:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"from\": \"Jacek Kowalski\",\n    \"to\": \"admin admin\",\n    \"amount\": 100,\n    \"title\": \"Example transaction\",\n    \"date\": \"2023-12-30\"\n}"
+				},
+				{
+					"name": "MakeTransaction - more than current balance",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"to\": \"22337581851564867163388620\",\r\n    \"amount\": 1000.0,\r\n    \"title\": \"Example transaction\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8080/api/v1/transaction/makeTransaction",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"makeTransaction"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' 'https://localhost'; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 17:29:52 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "GetTransactions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXBlIjoiSldUX0JFQVJFUl9UT0tFTiIsImFsZyI6IlJTNTEyIn0.eyJyb2xlIjoiQURNSU4iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3MDM5NTcxNzEsImV4cCI6MTcwNDA0MzU3MX0.HE647PhIpzm1OmbrO9TOYG-buET3N9g4d-ts5SSfoTLarqIvgACMGbyEP-i2GIrfwEaNtRrNN3fjwSI_ftNIc1b9i9WfWZ08_Vp1ufAnwnw2VVOVFAXOaTO_MhC11xHAkWVhPvVMw9QGSiuFQ9J5rp48ackOUhI-gQ_NRFqy7YLufXzWuL4S3H66na750drZ1efmnL9YcsYpm2k8K8Tdkme_awgcsQdqk10bPsYRc7NixWg4fGBTAGec7OCW-YZoUArlXXlMkyPQ494WpBCPwMF9M8GeOpFs9jBNcjad98uByHH9spDI-vJU421iFUNEzY8o7aOsHrc80L5v3WjJ30YDaKILu1_Zk3IfTYAP_03_5fSqRzsFrzmDU2OhSSf1v-jZNat9_oPmqWzGfyLKfMC6F538sIHa1mUarnpn2gRmzdviuhp24sIuytV9z9EUmEjmRscpdVHjjTqSscGNxO9ux_0aNMHNuqtNZPf327Fp6OFiek4-HoNk1kyPmK26DPcrFx4nOy5pgH8mNofDOgver9do0hshkRTE_fOKwS8FlhKSCtT9I7OFW9JYK8_RkdusjMFV5GK5Rz6IBAOVNdm0NOhMEHOOIfB6UkkyWiODRUDQDRVDVa7jDmBETkA82hEnIFPkvb2KhgHO3Ry1Z_og9m_h-iUfcftYhp1Cc4E",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:8080/api/v1/transaction/getTransactions",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"transaction",
+						"getTransactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetTransactions - success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8080/api/v1/transaction/getTransactions",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"transaction",
+								"getTransactions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000 ; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'self' 'https://localhost'; img-src 'self'; child-src 'none'; script-src 'self'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Dec 2023 17:30:35 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"from\": \"Jacek Kowalski\",\n        \"to\": \"admin admin\",\n        \"amount\": 100,\n        \"title\": \"Example transaction\",\n        \"date\": \"2023-12-30\"\n    }\n]"
+				}
+			]
 		}
 	]
 }
