@@ -8,7 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { AccountComponent } from './account/account.component';
 import { MatCardModule } from "@angular/material/card";
 import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
-
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -27,7 +27,9 @@ import { BillNumberPipe } from "@core/pipes/bill-number-pipe";
         MatToolbarModule,
         MatInputModule,
         MatCardModule,
-        BillNumberPipe
+        BillNumberPipe,
+        MatProgressBarModule
     ]
 })
-export class HomeSharedModule { }
+export class HomeSharedModule {
+}

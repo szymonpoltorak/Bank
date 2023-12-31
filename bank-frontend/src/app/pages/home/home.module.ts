@@ -10,6 +10,8 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatInputModule } from "@angular/material/input";
 import { MatListModule } from "@angular/material/list";
 import { HomeSharedModule } from "./home-shared/home-shared.module";
+import { MatCardModule } from "@angular/material/card";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { HomeSharedModule } from "./home-shared/home-shared.module";
         MatInputModule,
         MatListModule,
         HomeSharedModule,
+        MatCardModule,
+        MatProgressBarModule,
     ]
 })
 export class HomeModule {

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Account } from "@core/data/home/account";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-account',
@@ -7,5 +8,5 @@ import { Account } from "@core/data/home/account";
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent {
-  @Input() account !: Account;
+  @Input() account !: Observable<Account>;
 }

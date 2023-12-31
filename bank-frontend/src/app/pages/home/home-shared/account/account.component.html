@@ -1,7 +1,15 @@
-<mat-card class="balance-card">
+<mat-card class="balance-card" *ngIf="account | async as acc else loading">
     <mat-card-header class="money-header">Main Account</mat-card-header>
 
-    <mat-card-content class="money-amount">{{ account.balance }}</mat-card-content>
+    <mat-card-content class="money-amount">{{ acc.balance }}</mat-card-content>
 
-    <mat-card-footer class="bill-number">{{ account.billNumber | billNumber }}</mat-card-footer>
+    <mat-card-footer class="bill-number">{{ acc.billNumber | billNumber }}</mat-card-footer>
 </mat-card>
+
+<ng-template #loading>
+    <mat-card class="balance-loader">
+        <mat-card-header class="money-header">Fetching account..</mat-card-header>
+
+        <mat-progress-bar mode="query"></mat-progress-bar>
+    </mat-card>
+</ng-template>

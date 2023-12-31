@@ -6,6 +6,7 @@ import { ProfileComponent } from "./profile.component";
 import { HomeSharedModule } from "../home-shared/home-shared.module";
 import { MatCardModule } from "@angular/material/card";
 import { MatListModule } from "@angular/material/list";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MatListModule } from "@angular/material/list";
         ProfileRoutingModule,
         HomeSharedModule,
         MatCardModule,
-        MatListModule
+        MatListModule,
+        MatProgressSpinnerModule
     ]
 })
 export class ProfileModule {
