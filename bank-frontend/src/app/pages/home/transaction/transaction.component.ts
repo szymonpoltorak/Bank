@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Account } from "@core/data/home/account";
 import { Transaction } from "@core/data/home/transaction";
+import { HomeService } from "@core/services/home/home.service";
+import { take } from "rxjs";
+import { UtilService } from "@core/services/utils/util.service";
 
 @Component({
     selector: 'app-transaction',
@@ -13,35 +16,43 @@ export class TransactionComponent implements OnInit {
     transactionForm !: FormGroup;
     currentTransaction !: Transaction;
     isEditable: boolean = true;
+    hasFinished: boolean = false;
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder,
+                private homeService: HomeService,
+                private utilService: UtilService) {
     }
 
     ngOnInit(): void {
-        this.account = {
-            balance: '1240.00 PLN',
-            billNumber: '12345678901234567890123456'
-        };
-        this.transactionForm = this.formBuilder.group({
-            transactionTitle: ["", [
-                Validators.required,
-                Validators.minLength(4),
-                Validators.maxLength(120),
-                Validators.pattern('^[a-zA-Z0-9 _-ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$')
-            ]],
-            transactionAmount: ["", [
-                Validators.required,
-                Validators.min(1),
-                Validators.max(Number(this.account.balance.split(" ")[0])),
-                Validators.pattern("^[0-9]+(\.[0-9]{2})?$")
-            ]],
-            billNumber: ["", [
-                Validators.required,
-                Validators.minLength(26),
-                Validators.maxLength(26),
-                Validators.pattern("^[0-9]+$")
-            ]]
-        });
+        this.homeService
+            .getAccountDetails()
+            .pipe(take(1))
+            .subscribe((data: Account) => {
+                data.balance = `${data.balance} PLN`;
+
+                this.account = data;
+
+                this.transactionForm = this.formBuilder.group({
+                    transactionTitle: ["", [
+                        Validators.required,
+                        Validators.minLength(4),
+                        Validators.maxLength(120),
+                        Validators.pattern('^[a-zA-Z0-9 _-ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$')
+                    ]],
+                    transactionAmount: ["", [
+                        Validators.required,
+                        Validators.min(1),
+                        Validators.max(Number(this.account.balance.split(" ")[0])),
+                        Validators.pattern("^[0-9]+(\.[0-9]{2})?$")
+                    ]],
+                    billNumber: ["", [
+                        Validators.required,
+                        Validators.minLength(26),
+                        Validators.maxLength(26),
+                        Validators.pattern("^[0-9]+$")
+                    ]]
+                });
+            });
     }
 
     buildTransactionFromForm(): void {
@@ -58,5 +69,12 @@ export class TransactionComponent implements OnInit {
 
     finalizeTransaction(): void {
         this.isEditable = false;
+
+        this.homeService
+            .makeNewTransaction(this.currentTransaction)
+            .pipe(take(1))
+            .subscribe(() => {
+                this.hasFinished = true;
+            });
     }
 }

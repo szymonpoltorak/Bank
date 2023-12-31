@@ -3,9 +3,11 @@
 <div class="main-container">
     <mat-stepper class="stepper-container" linear>
         <mat-step [stepControl]="transactionForm" [editable]="isEditable">
-            <form [formGroup]="transactionForm" (ngSubmit)="buildTransactionFromForm()">
-                <ng-template matStepLabel>Fill out transaction info</ng-template>
+            <ng-template matStepLabel>Fill out transaction info</ng-template>
 
+            <mat-progress-bar *ngIf="account == undefined" mode="query"></mat-progress-bar>
+
+            <form *ngIf="account != undefined" [formGroup]="transactionForm" (ngSubmit)="buildTransactionFromForm()">
                 <div class="transaction-option-list">
                     <div>
                         <div class="title-label">Transaction from</div>
@@ -175,7 +177,7 @@
 
                 <mat-spinner></mat-spinner>
 
-                <button class="exit-button" routerLink="/home" mat-raised-button color="primary">
+                <button [disabled]="hasFinished" class="exit-button" routerLink="/home" mat-raised-button color="primary">
                     Exit
                 </button>
             </div>
