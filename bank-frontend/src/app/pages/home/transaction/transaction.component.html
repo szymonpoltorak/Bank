@@ -135,7 +135,7 @@
                 <mat-list *ngIf="currentTransaction">
                     <mat-list-item>
                         <span matListItemTitle>From</span>
-                        <span matListItemLine>{{ currentTransaction.from }}</span>
+                        <span matListItemLine>{{ account.billNumber | billNumber }}</span>
                     </mat-list-item>
 
                     <mat-list-item>

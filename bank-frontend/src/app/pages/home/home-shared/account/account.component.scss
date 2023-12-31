@@ -18,3 +18,12 @@
 .bill-number {
     font-size: 0.7em;
 }
+
+.balance-loader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 15em;
+    height: 10em;
+    margin-bottom: 2em;
+}
