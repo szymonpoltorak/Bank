@@ -32,11 +32,11 @@ import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.LOGOUT_URL;
 @RequiredArgsConstructor
 public class SecurityConfigurationImpl implements SecurityConfiguration {
     public static final String ADMIN_PATH = "/api/v1/admin";
-    @Value(Properties.FRONTEND_URL)
-    private String frontendUrl;
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final LogoutHandler logoutHandler;
+    @Value(Properties.FRONTEND_URL)
+    private String frontendUrl;
 
     @Bean
     @Override

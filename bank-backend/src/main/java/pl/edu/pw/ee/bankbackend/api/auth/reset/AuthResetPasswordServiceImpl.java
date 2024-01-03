@@ -13,7 +13,6 @@ import pl.edu.pw.ee.bankbackend.api.auth.reset.interfaces.AuthResetPasswordServi
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
 import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
-import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
 import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
 import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
@@ -31,16 +30,14 @@ import static pl.edu.pw.ee.bankbackend.api.auth.AuthServiceImpl.USER_NOT_EXIST_M
 @RequiredArgsConstructor
 public class AuthResetPasswordServiceImpl implements AuthResetPasswordService {
     private static final long PASSWORD_REFRESH_TOKEN_TIME = 600_000L;
-
-    @Value(Properties.FRONTEND_URL)
-    private String frontendUrl;
-
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final PasswordCombinationService passwordCombinationService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final PasswordCombinationRepository passwordCombinationRepository;
+    @Value(Properties.FRONTEND_URL)
+    private String frontendUrl;
 
     @Override
     public final SimpleStringResponse requestResetUsersPassword(String username) {

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record TransactionRequest(@NotNull @Size(min = 26, max = 26)
-                                 @Pattern(regexp = "\\d+$")String to,
+                                 @Pattern(regexp = "\\d+$") String to,
                                  @NotNull float amount,
                                  @NotNull String title) {
 }

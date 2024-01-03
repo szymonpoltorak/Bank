@@ -3,20 +3,17 @@ package pl.edu.pw.ee.bankbackend.api.auth;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.account.interfaces.AccountService;
 import pl.edu.pw.ee.bankbackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.LoginDeviceHandler;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
-import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.constants.TokenRevokeStatus;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.TokenManagerService;
@@ -28,7 +25,6 @@ import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.InvalidTokenException;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.UserAlreadyExistsException;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -37,7 +33,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
     public static final String USER_NOT_EXIST_MESSAGE = "Such user does not exist!";
     private static final String BUILDING_TOKEN_RESPONSE_MESSAGE = "Building token response for user : {}";
-    
+
     private final UserRepository userRepository;
     private final TokenManagerService tokenManager;
     private final LoginAttemptRepository loginAttemptRepository;

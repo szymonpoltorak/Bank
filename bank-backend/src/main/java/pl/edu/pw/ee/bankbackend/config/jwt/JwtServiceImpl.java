@@ -31,13 +31,11 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
+    private final RsaKeyService rsaKeyService;
     @Value(Properties.EXPIRATION_PROPERTY)
     private long expirationTime;
-
     @Value(Properties.REFRESH_PROPERTY)
     private long refreshTime;
-
-    private final RsaKeyService rsaKeyService;
 
     @Override
     public final <T> Optional<T> getClaimFromToken(String jwtToken, Function<Claims, T> claimsHandler) {

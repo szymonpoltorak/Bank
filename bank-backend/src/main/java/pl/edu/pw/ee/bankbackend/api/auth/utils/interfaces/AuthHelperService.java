@@ -3,7 +3,6 @@ package pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces;
 
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
 

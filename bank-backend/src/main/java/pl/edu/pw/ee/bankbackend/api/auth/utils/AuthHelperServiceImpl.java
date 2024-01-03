@@ -7,18 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
 import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
 import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
-import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
-import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
-import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
-import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
-import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
 import java.util.Optional;
 
