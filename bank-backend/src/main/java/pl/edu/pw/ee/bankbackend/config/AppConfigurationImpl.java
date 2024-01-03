@@ -107,8 +107,8 @@ public class AppConfigurationImpl implements AppConfiguration {
                     .surname("Kowalski")
                     .username("jacek@gmail.com")
                     .password(System.getenv("USER_PASSWORD"))
-                    .initialBalance(9999.0F)
-                    .idCardNumber("ABC123456")
+                    .initialBalance(1000.0F)
+                    .idCardNumber("ABC123457")
                     .accountType(AccountType.MAIN)
                     .userRole(UserRole.CUSTOMER)
                     .build();

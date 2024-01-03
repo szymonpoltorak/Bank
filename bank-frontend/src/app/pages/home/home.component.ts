@@ -12,8 +12,8 @@ import { Observable } from "rxjs";
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    transactions !: Observable<HistoryTransaction[]>;
-    account !: Observable<Account>;
+    protected transactions !: Observable<HistoryTransaction[]>;
+    protected account !: Observable<Account>;
     protected readonly RouterPath = RouterPath;
 
     constructor(private homeService: HomeService) {

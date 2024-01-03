@@ -178,11 +178,15 @@
             <ng-template matStepLabel>Done</ng-template>
 
             <div class="done-container">
-                <h1>We shall deliver money as soon as possible!</h1>
+                <h1 *ngIf="!hasFinished">We shall deliver money as soon as possible!</h1>
 
-                <mat-spinner></mat-spinner>
+                <h1 *ngIf="errorOccurred && hasFinished">Error has occurred during processing your payment</h1>
 
-                <button [disabled]="hasFinished" class="exit-button"
+                <h1 *ngIf="!errorOccurred && hasFinished">Your payment has been successful!</h1>
+
+                <mat-spinner *ngIf="!hasFinished"></mat-spinner>
+
+                <button [disabled]="!hasFinished" class="exit-button"
                         aria-label="Exit"
                         routerLink="/home" mat-raised-button color="primary">
                     Exit

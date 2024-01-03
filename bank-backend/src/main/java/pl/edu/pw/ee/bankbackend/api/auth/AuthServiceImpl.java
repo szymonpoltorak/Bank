@@ -35,12 +35,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private static final String USER_NOT_EXIST_MESSAGE = "Such user does not exist!";
+    public static final String USER_NOT_EXIST_MESSAGE = "Such user does not exist!";
     private static final String BUILDING_TOKEN_RESPONSE_MESSAGE = "Building token response for user : {}";
-    private static final long PASSWORD_REFRESH_TOKEN_TIME = 600_000L;
-
-    @Value(Properties.FRONTEND_URL)
-    private String frontendUrl;
     
     private final UserRepository userRepository;
     private final TokenManagerService tokenManager;
@@ -104,44 +100,6 @@ public class AuthServiceImpl implements AuthService {
         tokenManager.saveUsersToken(authToken, user);
 
         return tokenManager.buildTokensIntoResponse(authToken, refreshToken);
-    }
-
-    @Override
-    public final SimpleStringResponse requestResetUsersPassword(String username) {
-        log.info("Resetting passwordCombination for user : {}", username);
-
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)
-        );
-        log.info("User to gain refresh link : {}", user);
-
-        String passwordRefreshToken = jwtService.generateToken(Collections.emptyMap(),
-                user, PASSWORD_REFRESH_TOKEN_TIME);
-
-        log.info("Password refresh link : {}/auth/resetPassword?token={}", frontendUrl, passwordRefreshToken);
-
-        authHelperService.savePasswordResetToken(passwordRefreshToken, user);
-
-        return new SimpleStringResponse(username);
-    }
-
-    @Override
-    public final SimpleStringResponse resetUsersPassword(ResetPasswordRequest request) {
-        log.info("Resetting passwordCombination for user with token : {}", request.resetPasswordToken());
-
-        String username = jwtService.getClaimFromToken(request.resetPasswordToken(), Claims::getSubject)
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE));
-
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException(USER_NOT_EXIST_MESSAGE)
-        );
-        log.info("User to reset passwordCombination : {}", user);
-
-        User newUser = authHelperService.executePasswordResetProcess(request, user);
-
-        passwordCombinationService.generateCombinationsForPassword(request.newPassword(), newUser);
-
-        return new SimpleStringResponse(username);
     }
 
     @Override

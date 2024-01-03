@@ -31,8 +31,6 @@ public class AuthHelperServiceImpl implements AuthHelperService {
     private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginAttemptRepository loginAttemptRepository;
-    private final TokenRepository tokenRepository;
-    private final UserRepository userRepository;
 
     @Override
     public final User buildRequestIntoUser(RegisterRequest registerRequest, LoginAttempt loginAttempt) {
@@ -81,41 +79,5 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                     throw new UsernameNotFoundException(USER_LOGIN_FAILED);
                 }
         );
-    }
-
-    @Override
-    public final User executePasswordResetProcess(ResetPasswordRequest request, User user) {
-        JwtToken jwtToken = tokenRepository.findByTokenAndUser(request.resetPasswordToken(), user)
-                .orElseThrow(
-                        () -> new TokenDoesNotExistException("Token does not exist!")
-                );
-        log.info("Token to reset passwordCombination : {}", jwtToken);
-
-        String encodedPassword = passwordEncoder.encode(request.newPassword());
-
-        log.info("Setting new passwordCombination : {}", encodedPassword);
-
-        user.setPassword(encodedPassword);
-
-        log.info("Saving new user data and deleting token : {}", jwtToken);
-
-        passwordCombinationRepository.deleteAllByUserUsername(user.getUsername());
-
-        tokenRepository.deleteById(jwtToken.getTokenId());
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public final void savePasswordResetToken(String passwordRefreshToken, User user) {
-        JwtToken jwtToken = JwtToken
-                .builder()
-                .token(passwordRefreshToken)
-                .user(user)
-                .tokenType(TokenType.RESET_PASSWORD_TOKEN)
-                .build();
-        log.info("Token to save : {}", jwtToken);
-
-        tokenRepository.save(jwtToken);
     }
 }

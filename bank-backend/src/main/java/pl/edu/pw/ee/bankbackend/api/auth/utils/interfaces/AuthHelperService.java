@@ -11,8 +11,4 @@ public interface AuthHelperService {
     User buildRequestIntoUser(RegisterRequest registerRequest, LoginAttempt loginAttempt);
 
     void executeUserAuthenticationProcess(LoginAttempt loginAttempt, LoginRequest loginRequest);
-
-    User executePasswordResetProcess(ResetPasswordRequest request, User user);
-
-    void savePasswordResetToken(String passwordRefreshToken, User user);
 }

@@ -5,7 +5,8 @@
         <div class="left-column">
             <app-account [account]="account"></app-account>
 
-            <button aria-label="Send Money" routerLink="transaction" mat-fab extended color="primary" class="send-money-button">
+            <button aria-label="Send Money" routerLink="transaction" mat-fab extended color="primary"
+                    class="send-money-button">
                 <mat-icon>credit_score</mat-icon>
                 Send money
             </button>
@@ -48,8 +49,9 @@
                 </mat-expansion-panel>
             </ng-container>
 
-            <mat-card *ngIf="historyTransactions.length === 0">
-                <mat-card-header style="font-weight: bold">You don't have any transactions yet.</mat-card-header>
+            <mat-card style="padding: 1em;" *ngIf="historyTransactions.length === 0">
+                <mat-card-header style="font-weight: bold; padding: 0.5em;">You don't have any transactions yet.
+                </mat-card-header>
             </mat-card>
         </mat-accordion>
 
