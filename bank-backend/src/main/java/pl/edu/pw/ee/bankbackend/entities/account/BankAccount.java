@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.edu.pw.ee.bankbackend.entities.account.interfaces.Account;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 @Data
@@ -22,7 +23,7 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class BankAccount implements Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long accountId;
@@ -43,10 +44,12 @@ public class Account {
     @OneToOne
     private User user;
 
+    @Override
     public final void addAccountBalance(float balance) {
         this.balance += balance;
     }
 
+    @Override
     public final void subtractAccountBalance(float amount) {
         this.addAccountBalance(-amount);
     }

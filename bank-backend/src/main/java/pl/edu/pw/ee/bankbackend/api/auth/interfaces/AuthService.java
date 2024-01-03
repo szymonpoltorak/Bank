@@ -1,6 +1,5 @@
 package pl.edu.pw.ee.bankbackend.api.auth.interfaces;
 
-import jakarta.servlet.http.HttpServletRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.AuthResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;

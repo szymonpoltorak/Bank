@@ -10,3 +10,4 @@ gradlew.bat
 docker-compose.yml
 *.iml
 *.md
+build

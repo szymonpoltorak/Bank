@@ -21,7 +21,6 @@ import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.ServiceUser;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

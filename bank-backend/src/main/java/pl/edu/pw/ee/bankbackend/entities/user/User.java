@@ -30,7 +30,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import static pl.edu.pw.ee.bankbackend.entities.user.constants.Constants.USERS_TABLE_NAME;

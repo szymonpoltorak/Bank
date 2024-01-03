@@ -3,5 +3,5 @@ export interface User {
     surname: string;
     username: string;
     billNumber: string;
-    idCard: string;
+    idCardNumber: string;
 }

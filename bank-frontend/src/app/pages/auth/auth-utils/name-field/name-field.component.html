@@ -2,6 +2,7 @@
     <mat-label>{{ nameLabel }}</mat-label>
 
     <input [formControl]="nameControl" matInput placeholder="Your {{ nameLabel }}"
+           aria-label="Name"
            type="text">
 
     <mat-error *ngIf="nameControl.hasError('pattern')">

@@ -1,14 +1,12 @@
 package pl.edu.pw.ee.bankbackend.api.account;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.account.data.AccountResponse;
 import pl.edu.pw.ee.bankbackend.api.account.interfaces.AccountService;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.bankbackend.entities.account.Account;
+import pl.edu.pw.ee.bankbackend.entities.account.BankAccount;
 import pl.edu.pw.ee.bankbackend.entities.account.interfaces.AccountMapper;
 import pl.edu.pw.ee.bankbackend.entities.account.interfaces.AccountRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
@@ -20,7 +18,8 @@ import java.security.SecureRandom;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    private static final int BILL_NUMBER_LENGTH = 26;
+    private static final long BILL_NUMBER_LENGTH = 26L;
+    private static final int NUM_BYTES = 32;
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
@@ -29,12 +28,12 @@ public class AccountServiceImpl implements AccountService {
     public final AccountResponse getAccountDetails(User user) {
         log.info("Getting account details for user: {}", user);
 
-        Account account = accountRepository.findByUser(user)
+        BankAccount bankAccount = accountRepository.findByUser(user)
                 .orElseThrow(() -> new AccountDoesNotExistException("Account not found!"));
 
-        log.info("Account details: {}", account);
+        log.info("Account details: {}", bankAccount);
 
-        return accountMapper.mapToAccountResponse(account);
+        return accountMapper.mapToAccountResponse(bankAccount);
     }
 
     @Override
@@ -42,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
         log.info("Creating new account for user: {}", user);
         log.info("Account request: {}", request);
 
-        Account account = Account
+        BankAccount bankAccount = BankAccount
                 .builder()
                 .accountType(request.accountType())
                 .accountName(request.accountType().toAccountName())
@@ -50,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
                 .user(user)
                 .billNumber(generateNewUniqueBillNumber())
                 .build();
-        Account savedAccount = accountRepository.save(account);
+        BankAccount savedAccount = accountRepository.save(bankAccount);
 
         log.info("Created account: {}", savedAccount);
     }
@@ -65,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private String generateBillNumber() {
-        return new SecureRandom(SecureRandom.getSeed(32))
+        return new SecureRandom(SecureRandom.getSeed(NUM_BYTES))
                 .ints(0, 9)
                 .limit(BILL_NUMBER_LENGTH)
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)

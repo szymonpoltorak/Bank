@@ -12,7 +12,11 @@ RUN gradle build -x test
 
 RUN mv build/libs/bank-backend-0.0.1.jar bank.jar
 
-FROM openjdk:17-jdk-alpine
+FROM alpine:latest
+
+RUN apk update --no-cache
+
+RUN apk add --no-cache openjdk17-jre
 
 WORKDIR /bank
 

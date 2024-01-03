@@ -11,10 +11,12 @@ import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.random.RandomGenerator;
 
 @Slf4j
 @Service
@@ -22,14 +24,15 @@ import java.util.TreeSet;
 public class PasswordCombinationServiceImpl implements PasswordCombinationService {
     private static final int NUMBER_OF_COMBINATIONS = 10;
     private static final int INITIAL_HASH_SIZE = 40;
-    private static final long COMBINATION_LENGTH = 6L;
+    private static final int COMBINATION_LENGTH = 6;
+    private static final int SEED = 32;
 
     private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void generateCombinationsForPassword(String password, User user) {
-        Set<String> codedCombinations = new HashSet<>(INITIAL_HASH_SIZE);
+    public final void generateCombinationsForPassword(String password, User user) {
+        Collection<String> codedCombinations = new HashSet<>(INITIAL_HASH_SIZE);
 
         log.info("Generating combinations for passwordCombination");
 
@@ -54,7 +57,8 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         if (passwordCombinations.isEmpty()) {
             throw new IllegalArgumentException("User has no password combinations");
         }
-        int index = new SecureRandom().nextInt(0, passwordCombinations.size() - 1);
+        int index = new SecureRandom(SecureRandom.getSeed(SEED))
+                .nextInt(passwordCombinations.size() - 1);
 
         log.info("Index of password combination: {}", index);
 
@@ -84,19 +88,19 @@ public class PasswordCombinationServiceImpl implements PasswordCombinationServic
         passwordCombinationRepository.save(passwordCombination);
     }
 
-    private String codeCombination(Set<Integer> combination) {
+    private String codeCombination(Collection<Integer> combination) {
         return combination
                 .stream()
                 .collect(StringBuilder::new, (builder, i) -> builder.append(i).append(";"), StringBuilder::append)
                 .toString();
     }
 
-    private Set<Integer> generateCombination(String password) {
-        SecureRandom random = new SecureRandom(SecureRandom.getSeed(32));
+    private Set<Integer> generateCombination(CharSequence password) {
+        RandomGenerator random = new SecureRandom(SecureRandom.getSeed(SEED));
         Set<Integer> combinations = new TreeSet<>();
 
         while (combinations.size() != COMBINATION_LENGTH) {
-            int index = random.nextInt(0, password.length() - 1);
+            int index = random.nextInt(password.length() - 1);
 
             combinations.add(index);
         }

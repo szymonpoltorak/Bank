@@ -17,7 +17,6 @@ import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
 import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
 import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
-import pl.edu.pw.ee.bankbackend.entities.user.UserRole;
 import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 

@@ -5,46 +5,52 @@
         <div class="left-column">
             <app-account [account]="account"></app-account>
 
-            <button routerLink="transaction" mat-fab extended color="primary" class="send-money-button">
+            <button aria-label="Send Money" routerLink="transaction" mat-fab extended color="primary" class="send-money-button">
                 <mat-icon>credit_score</mat-icon>
                 Send money
             </button>
         </div>
 
         <mat-accordion class="main-accordion" *ngIf="transactions | async as historyTransactions else loading">
-            <mat-expansion-panel *ngFor="let transaction of historyTransactions">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <mat-icon matPrefix>currency_exchange</mat-icon>
-                    </mat-panel-title>
+            <ng-container *ngIf="historyTransactions.length !== 0">
+                <mat-expansion-panel *ngFor="let transaction of historyTransactions">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon matPrefix>currency_exchange</mat-icon>
+                        </mat-panel-title>
 
-                    <mat-panel-description>
-                        {{ transaction.date | date: 'dd.MM.yyyy' }}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+                        <mat-panel-description>
+                            {{ transaction.date | date: 'dd.MM.yyyy' }}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
 
-                <mat-list>
-                    <mat-list-item>
-                        <span matListItemTitle>Title</span>
-                        <span matListItemLine>{{ transaction.title }}</span>
-                    </mat-list-item>
+                    <mat-list>
+                        <mat-list-item>
+                            <span matListItemTitle>Title</span>
+                            <span matListItemLine>{{ transaction.title }}</span>
+                        </mat-list-item>
 
-                    <mat-list-item>
-                        <span matListItemTitle>From</span>
-                        <span matListItemLine>{{ transaction.from }}</span>
-                    </mat-list-item>
+                        <mat-list-item>
+                            <span matListItemTitle>From</span>
+                            <span matListItemLine>{{ transaction.from }}</span>
+                        </mat-list-item>
 
-                    <mat-list-item>
-                        <span matListItemTitle>To</span>
-                        <span matListItemLine>{{ transaction.to }}</span>
-                    </mat-list-item>
+                        <mat-list-item>
+                            <span matListItemTitle>To</span>
+                            <span matListItemLine>{{ transaction.to }}</span>
+                        </mat-list-item>
 
-                    <mat-list-item>
-                        <span matListItemTitle>Amount</span>
-                        <span matListItemLine>{{ transaction.amount | currency: 'PLN ' }}</span>
-                    </mat-list-item>
-                </mat-list>
-            </mat-expansion-panel>
+                        <mat-list-item>
+                            <span matListItemTitle>Amount</span>
+                            <span matListItemLine>{{ transaction.amount | currency: 'PLN ' }}</span>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </ng-container>
+
+            <mat-card *ngIf="historyTransactions.length === 0">
+                <mat-card-header style="font-weight: bold">You don't have any transactions yet.</mat-card-header>
+            </mat-card>
         </mat-accordion>
 
         <ng-template #loading>

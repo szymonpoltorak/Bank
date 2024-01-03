@@ -26,6 +26,7 @@
                                 <mat-label>Transaction title</mat-label>
 
                                 <input #title formControlName="transactionTitle" matInput
+                                       aria-label="Transaction Title"
                                        placeholder="My example title">
 
                                 <mat-hint align="end">{{ title.value.length }} / 120</mat-hint>
@@ -58,6 +59,7 @@
                                 <mat-label>Bill Number</mat-label>
 
                                 <input #bill formControlName="billNumber" matInput
+                                       aria-label="Bill Number"
                                        placeholder="{{'12345678901234567890123456' | billNumber}}">
 
                                 <mat-hint align="end">{{ bill.value.length }} / 26</mat-hint>
@@ -90,7 +92,8 @@
                             <mat-form-field appearance="outline" class="form-field">
                                 <mat-label>Amount</mat-label>
 
-                                <input formControlName="transactionAmount" matInput placeholder="1000.00">
+                                <input aria-label="Transaction Amount"
+                                       formControlName="transactionAmount" matInput placeholder="1000.00">
 
                                 <span matTextSuffix>PLN</span>
 
@@ -118,11 +121,12 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="option-button" mat-raised-button type="button" routerLink="/home">
+                    <button aria-label="Return" class="option-button" mat-raised-button type="button" routerLink="/home">
                         Return
                     </button>
 
                     <button [disabled]="transactionForm.invalid" class="option-button"
+                            aria-label="Next"
                             mat-raised-button color="primary" matStepperNext>
                         Next
                     </button>
@@ -157,11 +161,12 @@
                 </mat-list>
 
                 <div class="action-buttons">
-                    <button class="option-button" mat-raised-button matStepperPrevious>
+                    <button aria-label="Back" class="option-button" mat-raised-button matStepperPrevious>
                         Back
                     </button>
 
                     <button (click)="finalizeTransaction()" class="option-button" mat-raised-button
+                            aria-label="Next"
                             matStepperNext color="primary">
                         Next
                     </button>
@@ -177,7 +182,9 @@
 
                 <mat-spinner></mat-spinner>
 
-                <button [disabled]="hasFinished" class="exit-button" routerLink="/home" mat-raised-button color="primary">
+                <button [disabled]="hasFinished" class="exit-button"
+                        aria-label="Exit"
+                        routerLink="/home" mat-raised-button color="primary">
                     Exit
                 </button>
             </div>

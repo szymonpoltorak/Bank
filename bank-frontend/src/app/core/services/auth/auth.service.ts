@@ -5,7 +5,6 @@ import { environment } from "@environments/environment";
 import { UtilService } from "@core/services/utils/util.service";
 import { StorageKeys } from "@enums/auth/StorageKeys";
 import { AuthApiCalls } from "@enums/auth/AuthApiCalls";
-import { RegisterRequest } from "@core/data/auth/register-request";
 import { AuthResponse } from "@core/data/auth/auth-response";
 import { LoginRequest } from "@core/data/auth/login-request";
 import { AuthConstants } from "@enums/auth/AuthConstants";
@@ -22,12 +21,6 @@ export class AuthService {
 
     logoutUser(): Observable<any> {
         return this.http.post(`${environment.httpBackend}${AuthApiCalls.LOGOUT_URL}`, {});
-    }
-
-    registerUser(registerRequest: RegisterRequest): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(`${environment.httpBackend}${AuthApiCalls.REGISTER_URL}`,
-            registerRequest)
-            .pipe(catchError(() => of(JSON.parse(AuthApiCalls.ERROR_FOUND))));
     }
 
     loginUser(loginRequest: LoginRequest): Observable<AuthResponse> {

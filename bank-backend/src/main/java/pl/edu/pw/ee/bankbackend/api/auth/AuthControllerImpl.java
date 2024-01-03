@@ -53,7 +53,7 @@ public class AuthControllerImpl implements AuthController {
 
     @Override
     @GetMapping(value = AuthMappings.GET_COMBINATION_MAPPING)
-    public SimpleStringResponse getPasswordCombinationForUser(@RequestParam("username") String username) {
+    public final SimpleStringResponse getPasswordCombinationForUser(@RequestParam("username") String username) {
         return authService.getPasswordCombinationForUser(username);
     }
 }
