@@ -1,7 +1,6 @@
 package pl.edu.pw.ee.bankbackend.api.auth.reset;
 
 import io.jsonwebtoken.Claims;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.reset.interfaces.AuthResetPasswordService;
-import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.PasswordCombinationService;
 import pl.edu.pw.ee.bankbackend.config.constants.Properties;
 import pl.edu.pw.ee.bankbackend.config.jwt.interfaces.JwtService;
@@ -25,7 +23,6 @@ import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
 import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
 import java.util.Collections;
-import java.util.List;
 
 import static pl.edu.pw.ee.bankbackend.api.auth.AuthServiceImpl.USER_NOT_EXIST_MESSAGE;
 
@@ -65,7 +62,7 @@ public class AuthResetPasswordServiceImpl implements AuthResetPasswordService {
     }
 
     @Override
-    public SimpleStringResponse resetUsersPassword(ResetPasswordRequest request) {
+    public final SimpleStringResponse resetUsersPassword(ResetPasswordRequest request) {
         log.info("Resetting passwordCombination for user with token : {}", request.resetPasswordToken());
 
         String username = jwtService.getClaimFromToken(request.resetPasswordToken(), Claims::getSubject)
@@ -98,11 +95,10 @@ public class AuthResetPasswordServiceImpl implements AuthResetPasswordService {
 
         log.info("Saving new user data and deleting token : {}", jwtToken);
 
-        List<PasswordCombination> passwordCombinations = passwordCombinationRepository.findAllByUser(user);
+        passwordCombinationRepository
+                .findAllByUser(user)
+                .forEach(passwordCombinationRepository::deleteById);
 
-        for (PasswordCombination passwordCombination : passwordCombinations) {
-            passwordCombinationRepository.deleteById(passwordCombination.getPasswordCombinationId());
-        }
         tokenRepository.deleteById(jwtToken.getTokenId());
 
         return userRepository.save(user);

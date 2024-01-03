@@ -17,11 +17,6 @@ public interface PasswordCombinationRepository extends JpaRepository<PasswordCom
 
     List<PasswordCombination> findAllByUserUsername(String username);
 
-    void deleteAllByUserUsername(String username);
-
-    void deleteAllByUser(User user);
-
-    void deleteByPasswordCombinationId(long id);
-
-    List<PasswordCombination> findAllByUser(User user);
+    @Query("SELECT pc.passwordCombinationId FROM PasswordCombination pc WHERE pc.user = ?1")
+    List<Long> findAllByUser(User user);
 }
