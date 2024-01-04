@@ -37,3 +37,9 @@ sh run-docker.sh
 
 * Docker,
 * Nginx.
+
+## Additional script
+
+In `scripts` folder there is `password.py` script which can be used to build a password combination
+based on password you provide and indices of password characters that you have to fill in to login form.
+The indices start from 1.
