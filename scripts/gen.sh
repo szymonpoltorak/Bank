@@ -32,6 +32,9 @@ FRONTEND_DIR="bank-frontend"
 # Directory of backend application
 BACKEND_DIR="bank-backend"
 
+# Directory of nginx reverse proxy application
+NGINX_DIR="bank-nginx"
+
 # Private key for JWT
 PRIVATE_KEY="private.pem"
 
@@ -115,11 +118,23 @@ openssl genpkey -algorithm RSA -out ${PRIVATE_KEY} -pkeyopt rsa_keygen_bits:4096
 openssl rsa -pubout -in ${PRIVATE_KEY} -out ${PUBLIC_KEY}
 [ "$?" = 0 ] || exit 1
 
+# Create directories if they do not exist
+
+mkdir -p ../${FRONTEND_DIR}/src/assets/ssl/
+
+mkdir -p ../${NGINX_DIR}/ssl/
+
 # Moving files into directories
 
-cp ${SV_CERT} ${SV_PRIVKEY} ../../${FRONTEND_DIR}/src/assets/ssl/
+cp ${SV_CERT} ${SV_PRIVKEY} ../${FRONTEND_DIR}/src/assets/ssl/
 
-cp ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ../../${BACKEND_DIR}/src/main/resources/
+cp ${SV_CERT} ${SV_PRIVKEY} ../${NGINX_DIR}/ssl/
+
+cp ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ../${BACKEND_DIR}/src/main/resources/
+
+# Clean files in this dir
+
+rm ${SV_CERT} ${SV_PRIVKEY} ${SV_KEYSTORE} ${PRIVATE_KEY} ${PUBLIC_KEY} ${CA_CERT} ${CA_PRIVKEY}
 
 echo "Result:
     Certificate Authority:
