@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run ng build --configuration=docker
+RUN npm run ng -- build --configuration=docker
 
 FROM nginx:alpine
 

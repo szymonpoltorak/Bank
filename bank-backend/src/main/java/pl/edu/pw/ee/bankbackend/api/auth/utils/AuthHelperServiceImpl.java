@@ -7,19 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.auth.data.LoginRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
-import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.utils.interfaces.AuthHelperService;
 import pl.edu.pw.ee.bankbackend.entities.attempts.LoginAttempt;
 import pl.edu.pw.ee.bankbackend.entities.attempts.interfaces.LoginAttemptRepository;
 import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
 import pl.edu.pw.ee.bankbackend.entities.password.interfaces.PasswordCombinationRepository;
-import pl.edu.pw.ee.bankbackend.entities.token.JwtToken;
-import pl.edu.pw.ee.bankbackend.entities.token.TokenType;
-import pl.edu.pw.ee.bankbackend.entities.token.interfaces.TokenRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
-import pl.edu.pw.ee.bankbackend.entities.user.UserRole;
-import pl.edu.pw.ee.bankbackend.entities.user.interfaces.UserRepository;
-import pl.edu.pw.ee.bankbackend.exceptions.auth.throwable.TokenDoesNotExistException;
 
 import java.util.Optional;
 
@@ -32,8 +25,6 @@ public class AuthHelperServiceImpl implements AuthHelperService {
     private final PasswordCombinationRepository passwordCombinationRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoginAttemptRepository loginAttemptRepository;
-    private final TokenRepository tokenRepository;
-    private final UserRepository userRepository;
 
     @Override
     public final User buildRequestIntoUser(RegisterRequest registerRequest, LoginAttempt loginAttempt) {
@@ -82,41 +73,5 @@ public class AuthHelperServiceImpl implements AuthHelperService {
                     throw new UsernameNotFoundException(USER_LOGIN_FAILED);
                 }
         );
-    }
-
-    @Override
-    public final User executePasswordResetProcess(ResetPasswordRequest request, User user) {
-        JwtToken jwtToken = tokenRepository.findByTokenAndUser(request.resetPasswordToken(), user)
-                .orElseThrow(
-                        () -> new TokenDoesNotExistException("Token does not exist!")
-                );
-        log.info("Token to reset passwordCombination : {}", jwtToken);
-
-        String encodedPassword = passwordEncoder.encode(request.newPassword());
-
-        log.info("Setting new passwordCombination : {}", encodedPassword);
-
-        user.setPassword(encodedPassword);
-
-        log.info("Saving new user data and deleting token : {}", jwtToken);
-
-        passwordCombinationRepository.deleteAllByUserUsername(user.getUsername());
-
-        tokenRepository.deleteById(jwtToken.getTokenId());
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public final void savePasswordResetToken(String passwordRefreshToken, User user) {
-        JwtToken jwtToken = JwtToken
-                .builder()
-                .token(passwordRefreshToken)
-                .user(user)
-                .tokenType(TokenType.RESET_PASSWORD_TOKEN)
-                .build();
-        log.info("Token to save : {}", jwtToken);
-
-        tokenRepository.save(jwtToken);
     }
 }

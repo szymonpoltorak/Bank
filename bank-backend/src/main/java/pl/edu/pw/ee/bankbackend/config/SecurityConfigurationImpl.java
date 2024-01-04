@@ -31,11 +31,12 @@ import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.LOGOUT_URL;
 )
 @RequiredArgsConstructor
 public class SecurityConfigurationImpl implements SecurityConfiguration {
-    @Value(Properties.FRONTEND_URL)
-    private String frontendUrl;
+    public static final String ADMIN_PATH = "/api/v1/admin";
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final LogoutHandler logoutHandler;
+    @Value(Properties.FRONTEND_URL)
+    private String frontendUrl;
 
     @Bean
     @Override
@@ -49,7 +50,7 @@ public class SecurityConfigurationImpl implements SecurityConfiguration {
                         .requestMatchers(AUTH_MATCHERS)
                         .permitAll()
 
-                        .requestMatchers("/api/v1/admin")
+                        .requestMatchers(ADMIN_PATH)
                         .hasAuthority(UserRole.ADMIN.name())
 
                         .anyRequest()

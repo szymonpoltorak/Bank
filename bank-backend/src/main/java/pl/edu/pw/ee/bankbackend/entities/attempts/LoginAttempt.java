@@ -32,6 +32,14 @@ public class LoginAttempt implements AttemptController {
 
     private LocalTime dateOfLock;
 
+    public static LoginAttempt newInstance() {
+        return LoginAttempt
+                .builder()
+                .attempts(NO_ATTEMPTS)
+                .dateOfLock(LocalTime.MIN)
+                .build();
+    }
+
     @Override
     public final void incrementAttempts() {
         attempts++;
@@ -53,13 +61,5 @@ public class LoginAttempt implements AttemptController {
     @Override
     public final boolean isAccountNonLocked() {
         return dateOfLock.isBefore(LocalTime.now());
-    }
-
-    public static LoginAttempt newInstance() {
-        return LoginAttempt
-                .builder()
-                .attempts(NO_ATTEMPTS)
-                .dateOfLock(LocalTime.MIN)
-                .build();
     }
 }

@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Account } from "@core/data/home/account";
 import { Transaction } from "@core/data/home/transaction";
 import { HomeService } from "@core/services/home/home.service";
-import { take } from "rxjs";
-import { UtilService } from "@core/services/utils/util.service";
+import { catchError, take } from "rxjs";
 
 @Component({
     selector: 'app-transaction',
@@ -12,15 +11,15 @@ import { UtilService } from "@core/services/utils/util.service";
     styleUrls: ['./transaction.component.scss']
 })
 export class TransactionComponent implements OnInit {
-    account !: Account;
-    transactionForm !: FormGroup;
-    currentTransaction !: Transaction;
-    isEditable: boolean = true;
-    hasFinished: boolean = false;
+    protected account !: Account;
+    protected transactionForm !: FormGroup;
+    protected currentTransaction !: Transaction;
+    protected isEditable: boolean = true;
+    protected hasFinished: boolean = false;
+    protected errorOccurred: boolean = false;
 
     constructor(private formBuilder: FormBuilder,
-                private homeService: HomeService,
-                private utilService: UtilService) {
+                private homeService: HomeService) {
     }
 
     ngOnInit(): void {
@@ -64,7 +63,6 @@ export class TransactionComponent implements OnInit {
             title: this.transactionForm.controls['transactionTitle'].value,
             amount: Number(this.transactionForm.controls['transactionAmount'].value)
         };
-        console.log(this.currentTransaction);
     }
 
     finalizeTransaction(): void {
@@ -72,7 +70,11 @@ export class TransactionComponent implements OnInit {
 
         this.homeService
             .makeNewTransaction(this.currentTransaction)
-            .pipe(take(1))
+            .pipe(take(1), catchError(() => {
+                this.errorOccurred = true;
+
+                return [];
+            }))
             .subscribe(() => {
                 this.hasFinished = true;
             });

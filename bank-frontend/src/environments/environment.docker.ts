@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    httpBackend: "https://bank-backend:8080"
+    httpBackend: "https://localhost:8080"
 };

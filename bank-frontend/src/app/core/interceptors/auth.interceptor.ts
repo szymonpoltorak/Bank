@@ -31,16 +31,17 @@ export class AuthInterceptor implements HttpInterceptor {
         const key: StorageKeys = this.isRefreshing ? StorageKeys.REFRESH_TOKEN : StorageKeys.AUTH_TOKEN;
         const token: string = this.utilService.getValueFromStorage(key);
 
-        return next.handle(this.addTokenToRequest(token, request)).pipe(
-            catchError((error: any) => {
-                if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden) {
-                    this.utilService.removeValueFromStorage(StorageKeys.AUTH_TOKEN);
+        return next
+            .handle(this.addTokenToRequest(token, request)).pipe(
+                catchError((error: any) => {
+                    if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Forbidden) {
+                        this.utilService.removeValueFromStorage(StorageKeys.AUTH_TOKEN);
 
-                    return this.refreshUsersTokenIfPossible(request, next);
-                }
-                return throwError(error);
-            })
-        );
+                        return this.refreshUsersTokenIfPossible(request, next);
+                    }
+                    return throwError(error);
+                })
+            );
     }
 
     private refreshUsersTokenIfPossible(request: HttpRequest<unknown>,
@@ -49,7 +50,8 @@ export class AuthInterceptor implements HttpInterceptor {
             this.isRefreshing = true;
             this.refreshTokenSubject.next(null);
 
-            return this.authService.refreshUsersToken(this.utilService.getValueFromStorage(StorageKeys.REFRESH_TOKEN))
+            return this.authService
+                .refreshUsersToken(this.utilService.getValueFromStorage(StorageKeys.REFRESH_TOKEN))
                 .pipe(
                     switchMap((data: AuthResponse) => {
                         this.isRefreshing = false;
@@ -71,7 +73,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private addTokenToRequest(token: string, request: HttpRequest<unknown>): HttpRequest<unknown> {
         return request.clone({
             setHeaders: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
             }
         });
     }

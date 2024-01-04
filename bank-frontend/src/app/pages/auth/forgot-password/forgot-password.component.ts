@@ -23,6 +23,8 @@ export class ForgotPasswordComponent implements OnInit {
 
     ngOnInit(): void {
         this.forgotPasswordGroup = this.loginValidatorService.buildForgotPasswordForm();
+        this.forgotPasswordGroup.reset();
+        this.loginValidatorService.emailControl.enable();
     }
 
     sendEmailWithLink(): void {

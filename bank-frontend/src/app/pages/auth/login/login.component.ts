@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
         this.loginForm = this.loginValidatorService.buildLoginFormGroup();
         this.loginValidatorService.passwordControl.disable();
         this.loginForm.reset();
+        this.loginValidatorService.emailControl.enable();
     }
 
     submitForm(): void {
@@ -130,8 +131,6 @@ export class LoginComponent implements OnInit {
     private buildLoginRequest(): LoginRequest {
         const username = this.loginForm.get(FormFieldNames.EMAIL_FIELD)!.value;
         const passwordCombination: string = this.serializePassword();
-
-        console.log(passwordCombination);
 
         return {
             username: username,

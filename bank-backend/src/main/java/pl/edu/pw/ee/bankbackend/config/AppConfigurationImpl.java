@@ -53,7 +53,7 @@ public class AppConfigurationImpl implements AppConfiguration {
 
         configuration.setAllowedOrigins(CORS_ADDRESSES);
         configuration.setAllowedMethods(ALLOWED_REQUESTS);
-        configuration.setAllowedHeaders(List.of(AUTH_HEADER, CONTENT_TYPE_HEADER));
+        configuration.setAllowedHeaders(List.of(AUTH_HEADER, CONTENT_TYPE_HEADER, "Accept-Encoding"));
 
         source.registerCorsConfiguration(API_PATTERN, configuration);
 
@@ -85,21 +85,35 @@ public class AppConfigurationImpl implements AppConfiguration {
     }
 
     @Bean
+    @Override
     public CommandLineRunner commandLineRunner(AuthService authService) {
         return args -> {
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537";
 
-            RegisterRequest registerRequest = RegisterRequest
+            RegisterRequest adminRequest = RegisterRequest
                     .builder()
                     .name("admin")
                     .surname("admin")
                     .username("admin@gmail.com")
                     .password(System.getenv("ADMIN_PASSWORD"))
+                    .initialBalance(9999.0F)
                     .idCardNumber("ABC123456")
                     .accountType(AccountType.MAIN)
                     .userRole(UserRole.ADMIN)
                     .build();
-            authService.register(registerRequest, userAgent);
+            RegisterRequest jacek = RegisterRequest
+                    .builder()
+                    .name("Jacek")
+                    .surname("Kowalski")
+                    .username("jacek@gmail.com")
+                    .password(System.getenv("USER_PASSWORD"))
+                    .initialBalance(1000.0F)
+                    .idCardNumber("ABC123457")
+                    .accountType(AccountType.MAIN)
+                    .userRole(UserRole.CUSTOMER)
+                    .build();
+            authService.register(adminRequest, userAgent);
+            authService.register(jacek, userAgent);
         };
     }
 }

@@ -2,6 +2,7 @@
     <mat-label>Email</mat-label>
 
     <input [formControl]="emailControl" matInput placeholder="name@example.com"
+           aria-label="Email"
            type="email">
 
     <mat-error *ngIf="emailControl.hasError('pattern')">

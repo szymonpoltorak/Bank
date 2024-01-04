@@ -16,6 +16,7 @@ import pl.edu.pw.ee.bankbackend.api.auth.data.ResetPasswordRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.data.SimpleStringResponse;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthController;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
+import pl.edu.pw.ee.bankbackend.api.auth.reset.interfaces.AuthResetPasswordService;
 
 import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.AUTH_MAPPING;
 
@@ -25,6 +26,7 @@ import static pl.edu.pw.ee.bankbackend.config.constants.Matchers.AUTH_MAPPING;
 @RequestMapping(value = AUTH_MAPPING)
 public class AuthControllerImpl implements AuthController {
     private final AuthService authService;
+    private final AuthResetPasswordService authResetPasswordService;
 
     @Override
     @PostMapping(value = AuthMappings.LOGIN_MAPPING)
@@ -42,18 +44,18 @@ public class AuthControllerImpl implements AuthController {
     @Override
     @PostMapping(value = AuthMappings.REQUEST_RESET_PASSWORD_MAPPING)
     public final SimpleStringResponse requestResetUsersPassword(@RequestParam("username") String username) {
-        return authService.requestResetUsersPassword(username);
+        return authResetPasswordService.requestResetUsersPassword(username);
     }
 
     @Override
     @PostMapping(value = AuthMappings.RESET_PASSWORD_MAPPING)
     public final SimpleStringResponse resetUsersPassword(@Valid @RequestBody ResetPasswordRequest request) {
-        return authService.resetUsersPassword(request);
+        return authResetPasswordService.resetUsersPassword(request);
     }
 
     @Override
     @GetMapping(value = AuthMappings.GET_COMBINATION_MAPPING)
-    public SimpleStringResponse getPasswordCombinationForUser(@RequestParam("username") String username) {
+    public final SimpleStringResponse getPasswordCombinationForUser(@RequestParam("username") String username) {
         return authService.getPasswordCombinationForUser(username);
     }
 }

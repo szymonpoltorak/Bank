@@ -1,6 +1,5 @@
 package pl.edu.pw.ee.bankbackend.api.auth.devices;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

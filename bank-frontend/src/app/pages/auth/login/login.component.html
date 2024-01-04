@@ -7,7 +7,7 @@
         >
         </app-email-field>
 
-        <input class="login-input" type="tel" formControlName="telephone">
+        <input aria-label="Telephone" class="login-input" type="tel" formControlName="telephone">
 
         <app-password-combination *ngIf="currentUsername !== ''"
                                   [combinations]="combinations"
@@ -19,7 +19,7 @@
         </mat-error>
 
         <div class="forgot-password-label">
-            <button routerLink="/auth/forgotPassword" mat-button type="button">
+            <button aria-label="Forgot your password?" routerLink="/auth/forgotPassword" mat-button type="button">
                 Forgot your password?
             </button>
         </div>
@@ -27,6 +27,7 @@
         <div class="button-bar">
             <button [disabled]="!loginForm.valid"
                     *ngIf="currentUsername !== ''"
+                    aria-label="Login"
                     class="my-button"
                     color="primary" mat-raised-button type="submit">
                 Login
@@ -38,12 +39,6 @@
                     mat-raised-button type="button" color="primary"
                     class="my-button">
                 Submit Username
-            </button>
-        </div>
-
-        <div class="register-link-button">
-            <button mat-button routerLink="/auth/register" type="button">
-                Does not have an account? <strong>Register Now</strong>
             </button>
         </div>
     </form>

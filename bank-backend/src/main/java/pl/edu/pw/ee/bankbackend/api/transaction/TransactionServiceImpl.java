@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.transaction.data.TransactionRequest;
 import pl.edu.pw.ee.bankbackend.api.transaction.data.TransactionResponse;
 import pl.edu.pw.ee.bankbackend.api.transaction.interfaces.TransactionService;
-import pl.edu.pw.ee.bankbackend.entities.account.Account;
+import pl.edu.pw.ee.bankbackend.entities.account.BankAccount;
 import pl.edu.pw.ee.bankbackend.entities.account.interfaces.AccountRepository;
 import pl.edu.pw.ee.bankbackend.entities.transaction.Transaction;
 import pl.edu.pw.ee.bankbackend.entities.transaction.interfaces.TransactionMapper;
@@ -30,9 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
     public final TransactionResponse makeNewTransaction(TransactionRequest request, User from) {
         log.info("Making new transaction for user: {}", from);
 
-        Account toAccount = accountRepository.findByBillNumber(request.to())
+        BankAccount toAccount = accountRepository.findByBillNumber(request.to())
                 .orElseThrow(() -> new AccountDoesNotExistException("Account not found"));
-        Account fromAccount = accountRepository.findByUser(from)
+        BankAccount fromAccount = accountRepository.findByUser(from)
                 .orElseThrow(() -> new AccountDoesNotExistException("Account not found"));
         User to = toAccount.getUser();
 

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.edu.pw.ee.bankbackend.entities.password.PasswordCombination;
+import pl.edu.pw.ee.bankbackend.entities.user.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +16,6 @@ public interface PasswordCombinationRepository extends JpaRepository<PasswordCom
 
     List<PasswordCombination> findAllByUserUsername(String username);
 
-    void deleteAllByUserUsername(String username);
+    @Query("SELECT pc.passwordCombinationId FROM PasswordCombination pc WHERE pc.user = ?1")
+    List<Long> findAllByUser(User user);
 }

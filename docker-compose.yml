@@ -23,6 +23,7 @@ services:
             - KEY_STORE_PASSWORD=none
             - JWT_EXPIRATION_TIME=86400000
             - ADMIN_PASSWORD=Admin123!?
+            - USER_PASSWORD=Abc1!l1.DKk
             - JWT_REFRESH_TIME=604800000
         build:
             context: bank-backend

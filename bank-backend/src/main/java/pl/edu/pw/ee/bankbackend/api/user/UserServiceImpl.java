@@ -2,11 +2,10 @@ package pl.edu.pw.ee.bankbackend.api.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.ee.bankbackend.api.user.data.UserResponse;
 import pl.edu.pw.ee.bankbackend.api.user.interfaces.UserService;
-import pl.edu.pw.ee.bankbackend.entities.account.Account;
+import pl.edu.pw.ee.bankbackend.entities.account.BankAccount;
 import pl.edu.pw.ee.bankbackend.entities.account.interfaces.AccountRepository;
 import pl.edu.pw.ee.bankbackend.entities.user.User;
 import pl.edu.pw.ee.bankbackend.exceptions.account.throwable.AccountDoesNotExistException;
@@ -19,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public final UserResponse getUserAccountInfo(User user) {
-        Account account = accountRepository.findByUser(user)
+        BankAccount bankAccount = accountRepository.findByUser(user)
                 .orElseThrow(() -> new AccountDoesNotExistException("Account not found"));
 
         log.info("User account info for user: {} has been successfully retrieved", user.getUsername());
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
                 .name(user.getName())
                 .surname(user.getSurname())
                 .username(user.getUsername())
-                .billNumber(account.getBillNumber())
+                .billNumber(bankAccount.getBillNumber())
                 .idCardNumber(user.getIdCardNumber())
                 .build();
     }

@@ -6,6 +6,7 @@
     <span class="example-spacer"></span>
 
     <button (click)="changeRoute(RouterPath.HOME_DIRECT)"
+            aria-label="Home"
             [disabled]="currentRoute === RouterPath.HOME_DIRECT"
             mat-icon-button class="example-icon">
         <mat-icon>home</mat-icon>
@@ -13,11 +14,12 @@
 
     <button (click)="changeRoute(RouterPath.PROFILE_DIRECT)"
             [disabled]="currentRoute === RouterPath.PROFILE_DIRECT"
+            aria-label="Profile"
             mat-icon-button class="example-icon">
         <mat-icon>person</mat-icon>
     </button>
 
-    <button (click)="logoutUser()" mat-icon-button class="example-icon">
+    <button aria-label="Logout" (click)="logoutUser()" mat-icon-button class="example-icon">
         <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>

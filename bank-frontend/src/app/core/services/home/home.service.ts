@@ -14,14 +14,14 @@ export class HomeService {
     }
 
     getTransactionsHistory(): Observable<HistoryTransaction[]> {
-        return this.http.get<HistoryTransaction[]>(`${environment.httpBackend}/api/v1/transaction/getTransactions`);
+        return this.http.get<HistoryTransaction[]>(`${ environment.httpBackend }/api/v1/transaction/getTransactions`);
     }
 
     getAccountDetails(): Observable<Account> {
-        return this.http.get<Account>(`${environment.httpBackend}/api/v1/account/details`);
+        return this.http.get<Account>(`${ environment.httpBackend }/api/v1/account/details`);
     }
 
     makeNewTransaction(currentTransaction: Transaction): Observable<void> {
-        return this.http.post<void>(`${environment.httpBackend}/api/v1/transsaction/makeTransaction`, currentTransaction);
+        return this.http.post<void>(`${ environment.httpBackend }/api/v1/transaction/makeTransaction`, currentTransaction);
     }
 }

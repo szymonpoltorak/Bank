@@ -13,18 +13,19 @@ import pl.edu.pw.ee.bankbackend.api.admin.interfaces.AdminController;
 import pl.edu.pw.ee.bankbackend.api.auth.constants.AuthMappings;
 import pl.edu.pw.ee.bankbackend.api.auth.data.RegisterRequest;
 import pl.edu.pw.ee.bankbackend.api.auth.interfaces.AuthService;
+import pl.edu.pw.ee.bankbackend.config.SecurityConfigurationImpl;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/admin")
+@RequestMapping(value = SecurityConfigurationImpl.ADMIN_PATH)
 public class AdminControllerImpl implements AdminController {
     private final AuthService authService;
 
     @Override
     @PostMapping(value = AuthMappings.REGISTER_MAPPING)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void register(@Valid @RequestBody RegisterRequest registerRequest,
-                                 @RequestHeader("User-Agent") String userAgent) {
+    public final void register(@Valid @RequestBody RegisterRequest registerRequest,
+                               @RequestHeader("User-Agent") String userAgent) {
         authService.register(registerRequest, userAgent);
     }
 }
