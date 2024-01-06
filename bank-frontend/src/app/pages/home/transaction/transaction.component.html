@@ -60,24 +60,24 @@
 
                                 <input #bill formControlName="billNumber" matInput
                                        aria-label="Bill Number"
-                                       placeholder="{{'12345678901234567890123456' | billNumber}}">
+                                       placeholder="12345678901234567890123456">
 
                                 <mat-hint align="end">{{ bill.value.length }} / 26</mat-hint>
 
                                 <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['required']">
-                                    Transaction amount is <strong>required</strong>.
+                                    Transaction billNumber is <strong>required</strong>.
                                 </mat-error>
 
                                 <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['minlength']">
-                                    Transaction amount must be exactly <strong>26</strong> characters long.
+                                    Transaction billNumber must be exactly <strong>26</strong> characters long.
                                 </mat-error>
 
                                 <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['maxlength']">
-                                    Transaction amount must be exactly <strong>26</strong> characters long.
+                                    Transaction billNumber must be exactly <strong>26</strong> characters long.
                                 </mat-error>
 
                                 <mat-error *ngIf="transactionForm.controls['billNumber'].errors?.['pattern']">
-                                    Transaction amount has to be a <strong>number</strong> with
+                                    Transaction billNumber has to be a <strong>number</strong> with
                                     <strong>dot</strong>
                                     as separation character.
                                 </mat-error>

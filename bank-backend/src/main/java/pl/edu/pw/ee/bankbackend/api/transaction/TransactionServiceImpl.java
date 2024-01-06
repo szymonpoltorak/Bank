@@ -38,11 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         log.info("Found accounts: {} and {}", toAccount, fromAccount);
 
-        if (fromAccount.getBalance() < request.amount()) {
-            log.error("Not enough money on account to make transaction!");
+        validateTransaction(toAccount, fromAccount, request);
 
-            throw new NotEnoughMoneyException("Not enough money on account to make transaction!");
-        }
         Transaction transaction = buildTransaction(request, to, from);
         Transaction savedTransaction = transactionRepository.save(transaction);
 
@@ -69,6 +66,20 @@ public class TransactionServiceImpl implements TransactionService {
                 .stream()
                 .map(transactionMapper::mapToTransactionResponse)
                 .toList();
+    }
+
+    private void validateTransaction(BankAccount toAccount, BankAccount fromAccount, TransactionRequest request) {
+        if (fromAccount.getBillNumber().equals(toAccount.getBillNumber())) {
+            log.error("Cannot make transaction to the same account!");
+
+            throw new AccountDoesNotExistException("Cannot make transaction to the same account!");
+        }
+
+        if (fromAccount.getBalance() < request.amount()) {
+            log.error("Not enough money on account to make transaction!");
+
+            throw new NotEnoughMoneyException("Not enough money on account to make transaction!");
+        }
     }
 
     private Transaction buildTransaction(TransactionRequest request, User to, User from) {

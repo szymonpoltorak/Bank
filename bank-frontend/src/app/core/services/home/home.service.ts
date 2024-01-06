@@ -21,7 +21,7 @@ export class HomeService {
         return this.http.get<Account>(`${ environment.httpBackend }/api/v1/account/details`);
     }
 
-    makeNewTransaction(currentTransaction: Transaction): Observable<void> {
-        return this.http.post<void>(`${ environment.httpBackend }/api/v1/transaction/makeTransaction`, currentTransaction);
+    makeNewTransaction(currentTransaction: Transaction): Observable<Transaction> {
+        return this.http.post<Transaction>(`${ environment.httpBackend }/api/v1/transaction/makeTransaction`, currentTransaction);
     }
 }

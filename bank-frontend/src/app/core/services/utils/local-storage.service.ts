@@ -16,12 +16,6 @@ export class LocalStorageService {
         localStorage.removeItem(key);
     }
 
-    getKeyValueFromStorage(key: StorageKeys): string {
-        const value: string | null = localStorage.getItem(key);
-
-        return value == null ? "" : `${key}: ${value}`;
-    }
-
     getValueFromStorage(key: StorageKeys): string {
         const value: string | null = localStorage.getItem(key);
 

@@ -8,8 +8,6 @@ services:
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=none
             - POSTGRES_DB=bank
-        ports:
-            - "5000:5432"
     bank-backend:
         container_name: bank-backend
         image: bank-backend

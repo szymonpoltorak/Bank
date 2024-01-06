@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Account } from "@core/data/home/account";
 import { Transaction } from "@core/data/home/transaction";
 import { HomeService } from "@core/services/home/home.service";
-import { catchError, take } from "rxjs";
+import { catchError, of, take } from "rxjs";
 
 @Component({
     selector: 'app-transaction',
@@ -70,12 +70,11 @@ export class TransactionComponent implements OnInit {
 
         this.homeService
             .makeNewTransaction(this.currentTransaction)
-            .pipe(take(1), catchError(() => {
-                this.errorOccurred = true;
-
-                return [];
-            }))
-            .subscribe(() => {
+            .pipe(take(1), catchError(() => of(null)))
+            .subscribe((transaction: Transaction | null) => {
+                if (transaction == null) {
+                    this.errorOccurred = true;
+                }
                 this.hasFinished = true;
             });
     }

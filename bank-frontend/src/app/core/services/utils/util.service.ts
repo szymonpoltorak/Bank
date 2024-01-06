@@ -12,8 +12,7 @@ import { AuthResponse } from "@core/data/auth/auth-response";
 })
 export class UtilService {
     constructor(private router: Router,
-                private localStorageService: LocalStorageService,
-                private http: HttpClient) {
+                private localStorageService: LocalStorageService) {
     }
 
     navigate(url: string): void {
@@ -32,15 +31,7 @@ export class UtilService {
         return this.localStorageService.getValueFromStorage(key);
     }
 
-    getKeyValuePairFromStorage(key: StorageKeys): string {
-        return this.localStorageService.getKeyValueFromStorage(key);
-    }
-
     removeValueFromStorage(key: StorageKeys): void {
         this.localStorageService.removeValueFromStorage(key);
-    }
-
-    buildTestData(): Observable<AuthResponse> {
-        return this.http.post<AuthResponse>(`${environment.httpBackend}/api/test`, {});
     }
 }

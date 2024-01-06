@@ -25,6 +25,7 @@ export class TaskbarComponent {
     }
 
     changeRoute(routerPath: RouterPath): void {
+        this.utilService.clearStorage();
         this.utilService.navigate(routerPath);
     }
 }

@@ -7,24 +7,6 @@ import { PasswordValidatorService } from "@core/validators/password-validator.se
     providedIn: 'root'
 })
 export class FormValidatorService {
-    readonly nameControl: FormControl = new FormControl(FormValidation.NAME_VALUE,
-        [
-            Validators.required,
-            Validators.maxLength(FormValidation.NAME_MAX_LENGTH),
-            Validators.minLength(FormValidation.NAME_MIN_LENGTH),
-            Validators.pattern(FormValidation.NAME_PATTERN)
-        ]
-    );
-
-    readonly surnameControl: FormControl = new FormControl(FormValidation.NAME_VALUE,
-        [
-            Validators.required,
-            Validators.maxLength(FormValidation.NAME_MAX_LENGTH),
-            Validators.minLength(FormValidation.NAME_MIN_LENGTH),
-            Validators.pattern(FormValidation.NAME_PATTERN)
-        ]
-    );
-
     readonly emailControl: FormControl = new FormControl(
         FormValidation.EMAIL_VALUE,
         [
@@ -37,6 +19,9 @@ export class FormValidatorService {
         FormValidation.PASSWORD_VALUE,
         [
             Validators.required,
+            Validators.minLength(10),
+            Validators.maxLength(30),
+            this.passwordValidator.passwordEntropyValidator(),
             Validators.pattern(FormValidation.PASSWORD_PATTERN),
         ]
     );
@@ -45,6 +30,9 @@ export class FormValidatorService {
         FormValidation.PASSWORD_VALUE,
         [
             Validators.required,
+            Validators.minLength(10),
+            Validators.maxLength(30),
+            this.passwordValidator.passwordEntropyValidator(),
             Validators.pattern(FormValidation.PASSWORD_PATTERN),
         ]
     );
@@ -69,25 +57,6 @@ export class FormValidatorService {
             email: this.emailControl,
             passwordCombination: this.passwordCombinationGroup,
             telephone: new FormControl("", [])
-        });
-    }
-
-    buildRegisterFormGroup(): FormGroup {
-        return this.formBuilder.group({
-            nameInputs: this.formBuilder.group({
-                firstName: this.nameControl,
-                lastName: this.surnameControl
-            }),
-            telephone: new FormControl("", []),
-            email: this.emailControl,
-            passwordInputs: this.formBuilder.group({
-                    userPassword: this.passwordControl,
-                    repeatPassword: this.repeatPasswordControl
-                },
-                {
-                    validator: this.passwordValidator.passwordMatchValidator(this.passwordName, this.repeatPassword)
-                }
-            )
         });
     }
 

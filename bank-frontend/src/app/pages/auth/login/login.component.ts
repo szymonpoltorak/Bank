@@ -3,7 +3,7 @@ import { FormGroup } from "@angular/forms";
 import { FormValidatorService } from "@core/validators/form-validator.service";
 import { LoginRequest } from "@core/data/auth/login-request";
 import { AuthService } from "@core/services/auth/auth.service";
-import { take } from "rxjs";
+import { catchError, of, take } from "rxjs";
 import { AuthResponse } from "@core/data/auth/auth-response";
 import { AuthConstants } from "@enums/auth/AuthConstants";
 import { StorageKeys } from "@enums/auth/StorageKeys";
@@ -73,21 +73,26 @@ export class LoginComponent implements OnInit {
     getPasswordCombinationForUser(): void {
         const username: string = this.loginForm.get(FormFieldNames.EMAIL_FIELD)?.value;
 
+        this.authService
+            .getPasswordCombinationForUser(username)
+            .pipe(take(1), catchError(() => of({stringResponse: ""})))
+            .subscribe((combination: StringResponse) => {
+                if (combination.stringResponse === "") {
+                    console.error("Username was not found!");
+
+                    return;
+                }
+                this.mapResponseToCombinations(combination, username);
+            });
+    }
+
+    private mapResponseToCombinations(combination: StringResponse, username: string): void {
+        this.codedCombination = combination.stringResponse;
+
         this.loginValidatorService.emailControl.disable();
         this.loginValidatorService.passwordControl.enable();
 
         this.currentUsername = username;
-
-        this.authService
-            .getPasswordCombinationForUser(username)
-            .pipe(take(1))
-            .subscribe((combination: StringResponse) => {
-                this.mapResponseToCombinations(combination);
-            });
-    }
-
-    private mapResponseToCombinations(combination: StringResponse): void {
-        this.codedCombination = combination.stringResponse;
 
         const combinations: string[] = combination.stringResponse.split(";");
         const controlNames: string[] = ["first", "second", "third", "fourth", "fifth", "sixth"];
