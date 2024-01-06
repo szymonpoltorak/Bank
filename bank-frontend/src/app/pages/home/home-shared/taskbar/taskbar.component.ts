@@ -21,11 +21,13 @@ export class TaskbarComponent {
         this.authService
             .logoutUser()
             .pipe(take(1))
-            .subscribe(() => this.changeRoute(RouterPath.LOGIN_DIRECT));
+            .subscribe(() => {
+                this.utilService.clearStorage();
+                this.changeRoute(RouterPath.LOGIN_DIRECT);
+            });
     }
 
     changeRoute(routerPath: RouterPath): void {
-        this.utilService.clearStorage();
         this.utilService.navigate(routerPath);
     }
 }

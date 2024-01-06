@@ -43,3 +43,63 @@ sh run-docker.sh
 In `scripts` folder there is `password.py` script which can be used to build a password combination
 based on password you provide and indices of password characters that you have to fill in to login form.
 The indices start from 1.
+
+## Screenshots
+
+* Login
+
+<div align="center">
+    <img src="images/login-1.png">
+</div>
+
+<div align="center">
+    <img src="images/login-2.png">
+</div>
+
+<div align="center">
+    <img src="images/login-3.png">
+</div>
+
+<div align="center">
+    <img src="images/login-4.png">
+</div>
+
+* Forgot password
+
+<div align="center">
+    <img src="images/forgot-1.png">
+</div>
+
+<div align="center">
+    <img src="images/forgot-2.png">
+</div>
+
+* Home
+
+<div align="center">
+    <img src="images/home-1.png">
+</div>
+
+<div align="center">
+    <img src="images/home-2.png">
+</div>
+
+* Profile
+
+<div align="center">
+    <img src="images/profile.png">
+</div>
+
+* Making transactions
+
+<div align="center">
+    <img src="images/transaction-1.png">
+</div>
+
+<div align="center">
+    <img src="images/transaction-2.png">
+</div>
+
+<div align="center">
+    <img src="images/transaction-3.png">
+</div>
