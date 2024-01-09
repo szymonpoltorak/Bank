@@ -18,4 +18,7 @@ export enum RouterPath {
     PROFILE_DIRECT = "/home/profile",
 
     TRANSACTION_PATH = "transaction",
+
+    SESSIONS_DIRECT = "/home/sessions",
+    SESSIONS_PATH = "sessions",
 }

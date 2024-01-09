@@ -21,6 +21,12 @@ const routes: Routes = [
         loadChildren: () => import('./profile/profile.module')
             .then(m => m.ProfileModule),
         canActivate: [AuthGuard]
+    },
+    {
+        path: RouterPath.SESSIONS_PATH,
+        loadChildren: () => import('./sessions/sessions.module')
+            .then(m => m.SessionsModule),
+        canActivate: [AuthGuard]
     }
 ];
 

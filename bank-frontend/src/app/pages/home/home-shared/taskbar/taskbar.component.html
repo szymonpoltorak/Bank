@@ -19,6 +19,13 @@
         <mat-icon>person</mat-icon>
     </button>
 
+    <button (click)="changeRoute(RouterPath.SESSIONS_DIRECT)"
+            aria-label="Devices"
+            mat-icon-button class="example-icon"
+            [disabled]="currentRoute === RouterPath.SESSIONS_DIRECT">
+        <mat-icon>devices</mat-icon>
+    </button>
+
     <button aria-label="Logout" (click)="logoutUser()" mat-icon-button class="example-icon">
         <mat-icon>logout</mat-icon>
     </button>
